@@ -14,7 +14,12 @@ class CreatePendataransTable extends Migration
     public function up()
     {
         Schema::create('pendatarans', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->smallInteger('angkatan');
+            $table->string('nama_angkatan', 45);
+            $table->string('gelombang_1', 45);
+            $table->string('gelombang_2', 45);
+            $table->string('gelombang_3', 45);
             $table->timestamps();
         });
     }

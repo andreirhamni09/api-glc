@@ -14,7 +14,12 @@ class CreateKaryawansTable extends Migration
     public function up()
     {
         Schema::create('karyawans', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('nama_lengkap', 100);
+            $table->string('email', 100)->unique();
+            $table->text('password');
+            $table->enum('status', ['admin', 'dosen']);
+            $table->string('nmr_telepon', 15);             
             $table->timestamps();
         });
     }

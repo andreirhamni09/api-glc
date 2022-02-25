@@ -13,7 +13,10 @@ class JalurPendaftarans extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('jalur_pendaftarans', function (Blueprint $table) {
+            $table->smallIncrements('id');
+            $table->string('jalur', 30);
+        });
     }
 
     /**
@@ -23,6 +26,6 @@ class JalurPendaftarans extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('jalur_pendaftarans');
     }
 }
