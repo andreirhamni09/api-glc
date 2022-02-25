@@ -13,7 +13,7 @@ class SyaratPendaftarans extends Migration
      */
     public function up()
     {
-        Schema::create('syarat_pendidikans', function (Blueprint $table) {
+        Schema::create('syarat_pendaftarans', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->string('syarat', 20);
         }); 
@@ -26,6 +26,6 @@ class SyaratPendaftarans extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syarat_pendidikans');
+        Schema::dropIfExists('syarat_pendaftarans');
     }
 }

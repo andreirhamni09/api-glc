@@ -14,7 +14,10 @@ class CreateMateriPerkuliahansTable extends Migration
     public function up()
     {
         Schema::create('materi_perkuliahans', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('pertemuan', 45);
+            $table->string('jud_materi', 150);
+            $table->text('file_materi');
             $table->timestamps();
         });
     }

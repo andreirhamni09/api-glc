@@ -13,9 +13,11 @@ class DokumenPesertaDidiks extends Migration
      */
     public function up()
     {
-        Schema::create('jalur_pendaftarans', function (Blueprint $table) {
-            $table->smallIncrements('id');
-            $table->string('jalur', 30);
+        Schema::create('dokumen_peserta_didiks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nip_peserta_didik', 15);
+            $table->text('daf_dokumens');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +28,6 @@ class DokumenPesertaDidiks extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jalur_pendaftarans');
+        Schema::dropIfExists('dokumen_peserta_didiks');
     }
 }

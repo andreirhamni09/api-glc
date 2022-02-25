@@ -16,6 +16,7 @@ class JalurPendaftarans extends Migration
         Schema::create('jalur_pendaftarans', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->string('jalur', 30);
+            $table->string('icon', 150);
         });
     }
 

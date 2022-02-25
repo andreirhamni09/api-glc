@@ -25,15 +25,18 @@ class CreatePesertaDidiksTable extends Migration
             $table->date('tgl_lahir');
             $table->string('jen_kelamin');
             $table->enum('agama', ['islam', 'kristen', 'hindu', 'budha']);
+            $table->unsignedSmallInteger('syarat_pendaftaran_id')->unsigned();
             $table->string('asl_sekolah', 25);
             $table->string('kecamatan', 45);
             $table->string('kod_pos', 10);
+            $table->unsignedSmallInteger('jurusan_id');
             $table->enum('wkt_belajar', ['pagi', 'siang', 'malam']);
             $table->text('alamat');
             $table->string('pekerjaan', 45)->nullable();
             $table->string('nama_instansi', 100)->nullable();
             $table->string('no_telepon_instansi', 15)->nullable();
             $table->text('alamat_instansi')->nullable();
+            $table->unsignedInteger('pendaftaran_id');
             $table->enum('stat_peserta_didik', ['pembayaran', 'upload_dokumen', 'siswa']);
             $table->timestamps();
         });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class JalurPendaftarans extends Migration
+class DetailJalurPendaftarans extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,10 @@ class JalurPendaftarans extends Migration
     {
         Schema::create('detail_jalur_pendaftarans', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->string('jalur', 30);
+            $table->string('detail_jalur', 30);
+            $table->smallInteger('pot_gelombang_1');
+            $table->smallInteger('pot_gelombang_2');
+            $table->smallInteger('pot_gelombang_3');
         });
     }
 
@@ -26,6 +29,6 @@ class JalurPendaftarans extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jalur_pendaftarans');
+        Schema::dropIfExists('detail_jalur_pendaftarans');
     }
 }

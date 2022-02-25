@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdatePendaftarans extends Migration
+class UpdateDetailJalurPendaftaransTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UpdatePendaftarans extends Migration
      */
     public function up()
     {
-        Schema::table('pendaftarans', function (Blueprint $table) {
+        Schema::table('detail_jalur_pendaftarans', function (Blueprint $table) {
             //
         });
     }
@@ -25,7 +25,7 @@ class UpdatePendaftarans extends Migration
      */
     public function down()
     {
-        Schema::table('pendaftarans', function (Blueprint $table) {
+        Schema::table('detail_jalur_pendaftarans', function (Blueprint $table) {
             //
         });
     }
