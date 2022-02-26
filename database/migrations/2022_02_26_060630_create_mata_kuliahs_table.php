@@ -15,6 +15,9 @@ class CreateMataKuliahsTable extends Migration
     {
         Schema::create('mata_kuliahs', function (Blueprint $table) {
             $table->mediumIncrements('id');
+            # ~~ Foreign Jurusan
+            $table->unsignedSmallInteger('jurusans_id');
+            # ~~
             $table->string('matakuliah', 45); 
             $table->string('hari'); 
             $table->string('jam_mulai'); 

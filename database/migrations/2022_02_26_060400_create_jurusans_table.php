@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class SyaratPendaftarans extends Migration
+class CreateJurusansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class SyaratPendaftarans extends Migration
      */
     public function up()
     {
-        Schema::create('syarat_pendaftarans', function (Blueprint $table) {
+        Schema::create('jurusans', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->string('syarat', 20);
-        }); 
+            $table->string('jurusans', 30);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +27,6 @@ class SyaratPendaftarans extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syarat_pendaftarans');
+        Schema::dropIfExists('jurusans');
     }
 }

@@ -17,7 +17,8 @@ class CreateJadwalMengajarsTable extends Migration
             $table->unsignedMediumInteger('matakuliah_id');
             $table->foreign('matakuliah_id')->references('id')->on('mata_kuliahs');      
             $table->unsignedInteger('karyawan_id');
-            $table->foreign('karyawan_id')->references('id')->on('karyawans');         
+            $table->foreign('karyawan_id')->references('id')->on('karyawans');     
+            $table->timestamps();
         });
     }
 

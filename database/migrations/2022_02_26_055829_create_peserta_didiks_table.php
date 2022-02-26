@@ -29,6 +29,7 @@ class CreatePesertaDidiksTable extends Migration
             $table->string('asl_sekolah', 25);
             $table->string('kecamatan', 45);
             $table->string('kod_pos', 10);
+            # ~~ Foreign Jurusan
             $table->unsignedSmallInteger('jurusan_id');
             $table->enum('wkt_belajar', ['pagi', 'siang', 'malam']);
             $table->text('alamat');
@@ -36,7 +37,10 @@ class CreatePesertaDidiksTable extends Migration
             $table->string('nama_instansi', 100)->nullable();
             $table->string('no_telepon_instansi', 15)->nullable();
             $table->text('alamat_instansi')->nullable();
+            # ~~ 
+            # ~~ Foreign Pendaftaran
             $table->unsignedInteger('pendaftaran_id');
+            # ~~ 
             $table->enum('stat_peserta_didik', ['pembayaran', 'upload_dokumen', 'siswa']);
             $table->timestamps();
         });

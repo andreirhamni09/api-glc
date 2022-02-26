@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateMataKuliahs extends Migration
+class UpdatePendaftaransTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateMataKuliahs extends Migration
      */
     public function up()
     {
-        Schema::table('mata_kuliahs', function (Blueprint $table) {
-            //
+        Schema::table('pendaftarans', function (Blueprint $table) {
+           $table->foreign('detail_jalur_pendaftarans_id')->references('id')->on('detail_jalur_pendaftarans');
         });
     }
 
@@ -25,8 +25,8 @@ class UpdateMataKuliahs extends Migration
      */
     public function down()
     {
-        Schema::table('mata_kuliahs', function (Blueprint $table) {
-            //
+        Schema::table('pendaftarans', function (Blueprint $table) {
+            $table->dropForeign(['detail_jalur_pendaftarans_id']);
         });
     }
 }

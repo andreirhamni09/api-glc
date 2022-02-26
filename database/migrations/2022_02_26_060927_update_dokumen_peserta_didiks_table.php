@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdatePendaftarans extends Migration
+class UpdateDokumenPesertaDidiksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdatePendaftarans extends Migration
      */
     public function up()
     {
-        Schema::table('pendaftarans', function (Blueprint $table) {
-            //
+        Schema::table('dokumen_peserta_didiks', function (Blueprint $table) {
+            $table->foreign('nip_peserta_didik')->references('nip')->on('peserta_didiks');
         });
     }
 
@@ -25,8 +25,8 @@ class UpdatePendaftarans extends Migration
      */
     public function down()
     {
-        Schema::table('pendaftarans', function (Blueprint $table) {
-            //
+        Schema::table('dokumen_peserta_didiks', function (Blueprint $table) {
+            $table->dropForeign(['nip_peserta_didik']);
         });
     }
 }

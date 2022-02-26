@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DetailJalurPendaftarans extends Migration
+class CreateDetailJalurPendaftaransTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,9 @@ class DetailJalurPendaftarans extends Migration
     {
         Schema::create('detail_jalur_pendaftarans', function (Blueprint $table) {
             $table->smallIncrements('id');
+            # ~~ Foreign JalurPendaftaran
+            $table->unsignedSmallInteger('jalur_pendaftarans_id');
+            # ~~
             $table->string('detail_jalur', 30);
             $table->smallInteger('pot_gelombang_1');
             $table->smallInteger('pot_gelombang_2');
