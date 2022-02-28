@@ -16,6 +16,7 @@ class CreateSyaratPendidikansTable extends Migration
         Schema::create('syarat_pendidikans', function (Blueprint $table) {
             $table->tinyIncrements('id');
             $table->string('syarat', 20);
+            $table->timestamps();
         });
     }
 
