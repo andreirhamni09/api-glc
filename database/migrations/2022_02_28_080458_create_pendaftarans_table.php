@@ -15,14 +15,11 @@ class CreatePendaftaransTable extends Migration
     {
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->increments('id');
-            # ~~ Foreign DetailJalurPendaftaran
-            $table->unsignedSmallInteger('detail_jalur_pendaftarans_id');
+            # ~~ Foreign Jalur Pendaftaran
+            $table->unsignedSmallInteger('id_jalur_pendaftarans');
             # ~~
-            $table->smallInteger('angkatan');
-            $table->string('nama_angkatan', 45);
-            $table->string('gelombang_1', 45);
-            $table->string('gelombang_2', 45);
-            $table->string('gelombang_3', 45);
+            $table->integer('angkatan');
+            $table->string('nma_angkatan', 45);
             $table->timestamps();
         });
     }

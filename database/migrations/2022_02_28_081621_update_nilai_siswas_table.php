@@ -14,12 +14,8 @@ class UpdateNilaiSiswasTable extends Migration
     public function up()
     {
         Schema::table('nilai_siswas', function (Blueprint $table) {
-            # ~~ Foreign MataKuliahs
-            $table->foreign('matakuliahs_id')->references('id')->on('mata_kuliahs');
-            # ~~
-            # ~~ Foreign PesertaDidiks
-            $table->foreign('peserta_didiks_nip')->references('nip')->on('peserta_didiks');
-            # ~~
+            $table->foreign('id_mata_kuliahs')->references('id')->on('mata_kuliahs');
+            $table->foreign('nip_peserta_didiks')->references('nip')->on('peserta_didiks');
         });
     }
 
@@ -31,8 +27,8 @@ class UpdateNilaiSiswasTable extends Migration
     public function down()
     {
         Schema::table('nilai_siswas', function (Blueprint $table) {
-            $table->dropForeign(['matakuliahs_id']);
-            $table->dropForeign(['peserta_didiks_nip']);
+            $table->dropForeign(['id_mata_kuliahs']);
+            $table->dropForeign(['nip_peserta_didiks']);
         });
     }
 }

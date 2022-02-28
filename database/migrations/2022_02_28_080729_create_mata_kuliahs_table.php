@@ -16,12 +16,12 @@ class CreateMataKuliahsTable extends Migration
         Schema::create('mata_kuliahs', function (Blueprint $table) {
             $table->mediumIncrements('id');
             # ~~ Foreign Jurusan
-            $table->unsignedSmallInteger('jurusans_id');
+            $table->string('id_jurusans', 10);
             # ~~
-            $table->string('matakuliah', 45); 
-            $table->string('hari'); 
-            $table->string('jam_mulai'); 
-            $table->string('jam_selesai');
+            $table->string('matakuliah', 45);
+            $table->text('hari');
+            $table->text('jam_mulai');
+            $table->text('jam_selesai');
             $table->tinyInteger('semester');
             $table->timestamps();
         });

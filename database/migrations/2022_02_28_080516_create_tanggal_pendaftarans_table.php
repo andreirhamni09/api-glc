@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDokumenPesertaDidiksTable extends Migration
+class CreateTanggalPendaftaransTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateDokumenPesertaDidiksTable extends Migration
      */
     public function up()
     {
-        Schema::create('dokumen_peserta_didiks', function (Blueprint $table) {
-            $table->increments('id');
-            # ~~ Foreign PesertaDidik
-            $table->string('nip_peserta_didik', 15);
+        Schema::create('tanggal_pendaftarans', function (Blueprint $table) {
+            # ~~ Foreign Pendaftaran ID
+            $table->unsignedInteger('id_pendaftarans');
             # ~~
-            $table->text('daf_dokumens');
+            $table->string('gelombang', 45);
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateDokumenPesertaDidiksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dokumen_peserta_didiks');
+        Schema::dropIfExists('tanggal_pendaftarans');
     }
 }

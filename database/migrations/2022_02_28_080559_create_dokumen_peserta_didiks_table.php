@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMateriPerkuliahansTable extends Migration
+class CreateDokumenPesertaDidiksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateMateriPerkuliahansTable extends Migration
      */
     public function up()
     {
-        Schema::create('materi_perkuliahans', function (Blueprint $table) {
+        Schema::create('dokumen_peserta_didiks', function (Blueprint $table) {
             $table->increments('id');
-            # ~~ Foreign MataKuliah
-            $table->unsignedMediumInteger('matakuliahs_id');
+            # ~~ Foreign Peserta Didiks NIP
+            $table->string('nip_peserta_didiks', 15);
             # ~~
-            $table->string('pertemuan', 45);
-            $table->string('jud_materi', 150);
-            $table->text('file_materi');
+            $table->text('daf_dokumen');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateMateriPerkuliahansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materi_perkuliahans');
+        Schema::dropIfExists('dokumen_peserta_didiks');
     }
 }

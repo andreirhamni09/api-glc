@@ -14,9 +14,8 @@ class UpdatePesertaDidiksTable extends Migration
     public function up()
     {
         Schema::table('peserta_didiks', function (Blueprint $table) {
-            $table->foreign('syarat_pendaftaran_id')->references('id')->on('syarat_pendaftarans');
-            $table->foreign('jurusan_id')->references('id')->on('jurusans');
-            $table->foreign('pendaftaran_id')->references('id')->on('pendaftarans');
+            $table->foreign('id_jurusans')->references('id')->on('jurusans');
+            $table->foreign('id_pendaftarans')->references('id')->on('pendaftarans');
         });
     }
 
@@ -28,11 +27,8 @@ class UpdatePesertaDidiksTable extends Migration
     public function down()
     {
         Schema::table('peserta_didiks', function (Blueprint $table) {
-            $table->dropForeign(['syarat_pendaftaran_id']);
-
-            $table->dropForeign(['jurusan_id']);
-
-            $table->dropForeign(['pendaftaran_id']);
+            $table->dropForeign(['id_jurusans']);
+            $table->dropForeign(['id_pendaftarans']);
         });
     }
 }
