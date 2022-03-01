@@ -15,7 +15,7 @@ class CreatePesertaDidiksTable extends Migration
     {
         Schema::create('peserta_didiks', function (Blueprint $table) {
             $table->string('nip', 15)->primary();
-            $table->string('gmb_profile', 100);
+            $table->text('gmb_profile');
             $table->string('nama_lengkap', 100);
             $table->string('email', 100)->unique();
             $table->text('password');

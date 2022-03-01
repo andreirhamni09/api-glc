@@ -18,8 +18,8 @@ class CreateMateriPerkuliahansTable extends Migration
             # ~~ Foreign Matakuliah
             $table->unsignedMediumInteger('id_mata_kuliahs');
             # ~~
-            $table->string('pertemuan', 45);
-            $table->string('jud_materi', 150);
+            $table->text('pertemuan');
+            $table->text('jud_materi');
             $table->text('file_materi');
             $table->timestamps();
         });
