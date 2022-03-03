@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\KaryawanController;
-use App\Http\Controllers\API\JurusanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +17,3 @@ use App\Http\Controllers\API\JurusanController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
-
-# ~~ Admin
-    # ~~ Karyawan 
-        Route::resource('karyawan-admin', KaryawanController::class);
-    # ~~
-
-    # ~~ Jurusan
-        Route::resource('jurusan', JurusanController::class);
-    # ~~
-# ~~

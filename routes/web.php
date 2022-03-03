@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return crypt('dosengec', '753');
+    return view('welcome');
 });
