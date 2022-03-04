@@ -14,7 +14,8 @@ class CreateSyaratPendidikansTable extends Migration
     public function up()
     {
         Schema::create('syarat_pendidikans', function (Blueprint $table) {
-            $table->id();
+            $table->tinyIncrements('id');
+            $table->string('syarat', 10);
             $table->timestamps();
         });
     }

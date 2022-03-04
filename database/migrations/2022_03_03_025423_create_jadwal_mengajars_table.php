@@ -14,7 +14,8 @@ class CreateJadwalMengajarsTable extends Migration
     public function up()
     {
         Schema::create('jadwal_mengajars', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedInteger('id_users');
+            $table->unsignedMediumInteger('id_matakuliah');
             $table->timestamps();
         });
     }
