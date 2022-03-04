@@ -14,6 +14,7 @@ class CreateDetailUsersTable extends Migration
     public function up()
     {
         Schema::create('detail_users', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('id_users');
             $table->string('nip', 15);
             $table->string('nmr_telepon_ortu', 15);

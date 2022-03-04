@@ -14,7 +14,7 @@ class CreateUppPesertaDidiksTable extends Migration
     public function up()
     {
         Schema::create('upp_peserta_didiks', function (Blueprint $table) {
-            $table->unsignedInteger('id_users');
+            $table->unsignedInteger('id_peserta_didik');
             $table->integer('cicilan_1');
             $table->integer('cicilan_2');
             $table->integer('cicilan_3');

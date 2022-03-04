@@ -14,7 +14,7 @@ class UpdateDokumenPesertaDidiksTable extends Migration
     public function up()
     {
         Schema::table('dokumen_peserta_didiks', function (Blueprint $table) {
-            //
+            $table->foreign('id_peserta_didiks')->references('id')->on('detail_users');            
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateDokumenPesertaDidiksTable extends Migration
     public function down()
     {
         Schema::table('dokumen_peserta_didiks', function (Blueprint $table) {
-            //
+            $table->dropForeign(['id_peserta_didiks']);            
         });
     }
 }

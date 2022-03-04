@@ -14,7 +14,13 @@ class CreateMataKuliahsTable extends Migration
     public function up()
     {
         Schema::create('mata_kuliahs', function (Blueprint $table) {
-            $table->id();
+            $table->mediumIncrements('id');
+            $table->string('id_jurusans', 10);
+            $table->string('matakuliah', 45);
+            $table->text('hari');
+            $table->text('jam_mulai');
+            $table->text('jam_selesai');
+            $table->integer('semester');
             $table->timestamps();
         });
     }

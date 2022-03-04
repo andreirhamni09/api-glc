@@ -14,7 +14,7 @@ class UpdateMataKuliahsTable extends Migration
     public function up()
     {
         Schema::table('mata_kuliahs', function (Blueprint $table) {
-            //
+            $table->foreign('id_jurusans')->references('id')->on('jurusans');            
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateMataKuliahsTable extends Migration
     public function down()
     {
         Schema::table('mata_kuliahs', function (Blueprint $table) {
-            //
+            $table->dropForeign(['id_jurusans']);         
         });
     }
 }

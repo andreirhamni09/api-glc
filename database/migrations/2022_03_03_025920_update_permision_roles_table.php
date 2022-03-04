@@ -13,8 +13,9 @@ class UpdatePermisionRolesTable extends Migration
      */
     public function up()
     {
-        Schema::table('permision_roles', function (Blueprint $table) {
-            //
+        Schema::table('permision_roles', function (Blueprint $table) {            
+            $table->foreign('id_roles')->references('id')->on('roles');
+            $table->foreign('id_permisions')->references('id')->on('permisions');
         });
     }
 
@@ -25,8 +26,9 @@ class UpdatePermisionRolesTable extends Migration
      */
     public function down()
     {
-        Schema::table('permision_roles', function (Blueprint $table) {
-            //
+        Schema::table('permision_roles', function (Blueprint $table) {            
+            $table->dropForeign(['id_roles']);
+            $table->dropForeign(['id_permisions']);
         });
     }
 }

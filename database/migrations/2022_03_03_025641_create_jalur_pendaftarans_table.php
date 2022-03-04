@@ -14,7 +14,10 @@ class CreateJalurPendaftaransTable extends Migration
     public function up()
     {
         Schema::create('jalur_pendaftarans', function (Blueprint $table) {
-            $table->id();
+            $table->smallIncrements('id');
+            $table->string('jalur', 45);
+            $table->integer('biaya_pendidikan');
+            $table->tinyInteger('pot_pendidikan');
             $table->timestamps();
         });
     }

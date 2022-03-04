@@ -14,7 +14,9 @@ class CreateDokumenPesertaDidiksTable extends Migration
     public function up()
     {
         Schema::create('dokumen_peserta_didiks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->unsignedInteger('id_peserta_didiks');
+            $table->text('daf_dokument');
             $table->timestamps();
         });
     }

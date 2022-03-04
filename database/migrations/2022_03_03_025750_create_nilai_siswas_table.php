@@ -14,7 +14,9 @@ class CreateNilaiSiswasTable extends Migration
     public function up()
     {
         Schema::create('nilai_siswas', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedMediumInteger('id_matakuliahs');
+            $table->unsignedInteger('id_peserta_didiks');
+            $table->float('nilai', 8, 2);
             $table->timestamps();
         });
     }

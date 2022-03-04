@@ -14,7 +14,8 @@ class UpdateJadwalMengajarsTable extends Migration
     public function up()
     {
         Schema::table('jadwal_mengajars', function (Blueprint $table) {
-            //
+            $table->foreign('id_users')->references('id')->on('users');
+            $table->foreign('id_matakuliah')->references('id')->on('mata_kuliahs');
         });
     }
 
@@ -26,7 +27,8 @@ class UpdateJadwalMengajarsTable extends Migration
     public function down()
     {
         Schema::table('jadwal_mengajars', function (Blueprint $table) {
-            //
+            $table->dropForeign(['id_users']);
+            $table->dropForeign(['id_matakuliah']);
         });
     }
 }
