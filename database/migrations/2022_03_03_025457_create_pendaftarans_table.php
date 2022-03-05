@@ -15,8 +15,9 @@ class CreatePendaftaransTable extends Migration
     {
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedSmallInteger('id_jalurs');
+            $table->string('nama_jalur');
             $table->integer('angkatan');
+            $table->string('syr_pendidikan');
             $table->string('nma_angkatan', 45);
             $table->timestamps();
         });

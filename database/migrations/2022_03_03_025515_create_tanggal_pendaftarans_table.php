@@ -17,6 +17,8 @@ class CreateTanggalPendaftaransTable extends Migration
             $table->unsignedInteger('id_pendaftarans');
             $table->string('gelombang', 45);
             $table->date('tanggal');
+            $table->integer('bya_pendidikan');
+            $table->tinyInteger('pot_pendidikan');
             $table->timestamps();
         });
     }

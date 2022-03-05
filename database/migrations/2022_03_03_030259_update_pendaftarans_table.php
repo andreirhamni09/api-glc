@@ -14,7 +14,6 @@ class UpdatePendaftaransTable extends Migration
     public function up()
     {
         Schema::table('pendaftarans', function (Blueprint $table) {
-            $table->foreign('id_jalurs')->references('id')->on('jalur_pendaftarans');
         });
     }
 
@@ -26,7 +25,6 @@ class UpdatePendaftaransTable extends Migration
     public function down()
     {
         Schema::table('pendaftarans', function (Blueprint $table) {
-            $table->dropForeign(['id_jalurs']);
         });
     }
 }
