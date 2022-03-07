@@ -30,7 +30,7 @@ class CreateDetailUsersTable extends Migration
             $table->string('id_jurusans', 10);
             $table->text('alm_instansi');
             $table->unsignedInteger('id_pendaftarans');
-            $table->enum('sts_peserta_didiks', ['pembayaran', 'upload_dokumen', 'siswa']);
+            $table->enum('sts_peserta_didiks', ['pembayaran', 'upload_dokumen', 'siswa', 'lulus', 'dropout']);
             $table->timestamps();
         });
     }

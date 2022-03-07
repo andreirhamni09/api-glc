@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+# ~~ ADMIN
+ use App\Http\Controllers\API\JurusanController;
+# ~~
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +20,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+    
 });
+
+
+# ~~PESERTA DIDIK
+
+# ~~
+
+# ~~ ADMIN
+
+    // Route::resources('jurusan', JurusanController::class);
+
+    Route::prefix('admin')->group(function(){
+       # ~~ Jurusan
+        Route::resource('jurusan', JurusanController::class);
+        #
+        Route::post('jurusan/{id}', [JurusanController::class, 'update']);
+       # ~~
+    });
+# ~~ ADMIN

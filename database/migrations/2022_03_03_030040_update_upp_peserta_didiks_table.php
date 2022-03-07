@@ -14,7 +14,7 @@ class UpdateUppPesertaDidiksTable extends Migration
     public function up()
     {
         Schema::table('upp_peserta_didiks', function (Blueprint $table) {
-            $table->foreign('id_peserta_didik')->references('id')->on('users');            
+            $table->foreign('id_peserta_didik')->references('id')->on('detail_users');            
         });
     }
 
