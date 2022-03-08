@@ -16,7 +16,8 @@ class CreateTanggalPendaftaransTable extends Migration
         Schema::create('tanggal_pendaftarans', function (Blueprint $table) {
             $table->unsignedInteger('id_pendaftarans');
             $table->string('gelombang', 45);
-            $table->date('tanggal');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
             $table->integer('bya_pendidikan');
             $table->tinyInteger('pot_pendidikan');
             $table->timestamps();

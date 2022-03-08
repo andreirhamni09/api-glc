@@ -18,6 +18,14 @@ class JurusanController extends Controller
     public function index()
     {
         $jurusans = Jurusan::getAll();
+        if(count($jurusans) == 0)
+        {
+            return response()->json([
+                'success'   => true,
+                'message'   => 'null',
+                'data'      => 'Belum Ada Data Jurusan Yang Diinputkan'
+            ], 422);
+        }
 
         return response()->json([
             'success' => true,
@@ -151,9 +159,9 @@ class JurusanController extends Controller
         }
 
         try {
-            $n_jurusan = Jurusan::find($id);
+            $u_jurusan = Jurusan::find($id);
 
-            $n_jurusan->update($request->all());
+            $u_jurusan->update($request->all());
 
             return response()->json([
                 'success'   => true,
@@ -182,7 +190,7 @@ class JurusanController extends Controller
             $jurusans = Jurusan::find($id);
             $jurusans->delete();
             return response()->json([
-                'success'       => false,
+                'success'       => true,
                 'message'       => 'Berhasil Hapus Data Jurusan Dengan ID: '.$id,
             ]);
         } catch (\Throwable $e) {

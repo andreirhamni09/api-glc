@@ -14,8 +14,7 @@ class Jurusan extends Model
     public $primaryKey = 'id';
     protected $fillable = [
         'id',
-        'jurusan',
-        'updated_at',
+        'jurusan'
     ];
 
     static function getAll(){

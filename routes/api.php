@@ -5,8 +5,38 @@ use Illuminate\Support\Facades\Route;
 
 
 # ~~ ADMIN
- use App\Http\Controllers\API\JurusanController;
+
+ # ~~ Jurusan 
+  use App\Http\Controllers\API\JurusanController;
+ # ~~
+
+ # ~~ JalurPendaftaran
+  use App\Http\Controllers\API\JalurPendaftaranController;
+ # ~~
+
+ 
+ # ~~ Pendaftaran 
+  use App\Http\Controllers\API\PendaftaranController;
+ # ~~ 
+
+ # ~~ Role 
+  use App\Http\Controllers\API\RoleController;
+ # ~~ 
+
+ # ~~ Permision
+  use App\Http\Controllers\API\PermisionsController;
+ # ~~
+
+  # ~~ Permision Role
+  use App\Http\Controllers\API\PermisionRoleController;
+use App\Models\PermisionRole;
+
+ # ~~
 # ~~
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,8 +65,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::prefix('admin')->group(function(){
        # ~~ Jurusan
         Route::resource('jurusan', JurusanController::class);
-        #
-        Route::post('jurusan/{id}', [JurusanController::class, 'update']);
        # ~~
+
+       # ~~ Jalur Pendaftaran
+        Route::resource('jalurpendaftaran', JalurPendaftaranController::class);
+       # ~~
+
+       # ~~ Pendaftaran
+        Route::resource('pendaftaran', PendaftaranController::class);
+       # ~~ 
+
+       # ~~ Role
+        Route::resource('role', RoleController::class);
+       # ~~
+
+       # ~~ Permision
+        Route::resource('permision', PermisionsController::class);
+       # ~~ 
+
+       # ~~ Permision
+       Route::resource('permisionrole', PermisionRoleController::class);
+       # ~~ 
     });
 # ~~ ADMIN
