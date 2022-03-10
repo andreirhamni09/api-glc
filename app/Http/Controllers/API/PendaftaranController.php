@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pendaftaran;
+use App\Models\TanggalPendaftaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -198,7 +199,9 @@ class PendaftaranController extends Controller
                                 'data'          => $tglPendaftaranValidation->errors()
                             ], 200);
                         }
-        
+                        $insTanggalPendaftaran = TanggalPendaftaran::create($tglPendaftaranData);
+
+
                         $dataInsert = [
                             'id_jalurs'         => $request->input('id_jalurs'),
                             'angkatan'          => $request->input('angkatan'),
