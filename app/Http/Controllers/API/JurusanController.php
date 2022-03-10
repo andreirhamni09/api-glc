@@ -21,16 +21,18 @@ class JurusanController extends Controller
         if(count($jurusans) == 0)
         {
             return response()->json([
-                'success'   => true,
-                'message'   => 'null',
-                'data'      => 'Belum Ada Data Jurusan Yang Diinputkan'
+                'success'       => false,
+                'message'       => 'failed',
+                'get_message'   => 'Belum Ada Data Jurusan Yang Diinputkan',
+                'data'          => false
             ], 422);
         }
 
         return response()->json([
-            'success' => true,
-            'message' => 'success',
-            'data'    => $jurusans
+            'success'       => true,
+            'message'       => 'success',
+            'get_message'   => 'Data Jurusan',
+            'data'          => $jurusans
         ], 200);
     }
 
@@ -72,23 +74,26 @@ class JurusanController extends Controller
         if($validate->fails()){
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Menambahkan Data',
-                'err_message'   => $validate->errors()
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Data Baru',
+                'data'          => $validate->errors()
             ], 422);
         }
         
         try {
             $n_jurusan = Jurusan::create($request->all());
             return response()->json([
-                'success'   => true,
-                'message'   => 'Berhasil Menambahkan Jurusan Baru',
-                'data'      => $request->all()
+                'success'       => true,
+                'message'       => 'success',
+                'ins_message'   => 'Berhasil Menambahkan Jurusan Baru',
+                'data'          => $request->all()
             ]);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Menambahkan Jurusan Baru',
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Data Baru',
+                'data'          => $e->getMessage()
             ]);
         }
     }
@@ -153,8 +158,9 @@ class JurusanController extends Controller
         if($validate->fails()){
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Update Jurusan',
-                'err_message'   => $validate->errors()
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Jurusan',
+                'data'          => $validate->errors()
             ], 422);
         }
 
@@ -164,15 +170,17 @@ class JurusanController extends Controller
             $u_jurusan->update($request->all());
 
             return response()->json([
-                'success'   => true,
-                'message'   => 'Berhasil Update Jurusan',
-                'data'      => $request->all()
+                'success'       => true,
+                'message'       => 'success',
+                'upd_message'   => 'Berhasil Update Data',
+                'data'          => $request->all()
             ]);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Update Jurusan',
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Data',
+                'data'          => $e->getMessage()
             ]);
         }
 
@@ -191,13 +199,16 @@ class JurusanController extends Controller
             $jurusans->delete();
             return response()->json([
                 'success'       => true,
-                'message'       => 'Berhasil Hapus Data Jurusan Dengan ID: '.$id,
+                'message'       => 'success',
+                'del_message'   => 'Jurusan Berhasil Dihapus',
+                'data'          => true
             ]);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Hapus Data Jurusan Dengan ID: '.$id,
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'del_message'   => 'Gagal Hapus Data',
+                'data'          => $e->getMessage()
             ]);
         }        
     }

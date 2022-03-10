@@ -21,16 +21,18 @@ class RoleController extends Controller
 
         if(count($roles) == 0){
             return response()->json([
-                'success'   => true,
-                'message'   => 'null',
-                'data'      => 'Belum Ada Data Jurusan Yang Diinputkan'
+                'success'       => false,
+                'message'       => 'failed',
+                'get_message'   => 'Data Belum Diinputkan',
+                'data'          => null
             ], 422);
         }
 
         return response()->json([
-            'success'   => true,
-            'message'   => 'success',
-            'data'      => $roles
+            'success'       => true,
+            'message'       => 'success',
+            'get_message'   => 'Data Role',
+            'data'          => $roles
         ], 200);
     }
 
@@ -66,8 +68,9 @@ class RoleController extends Controller
         if($validator->fails()){
             return response()->json([
                 'success'       => false,
-                'message'       => 'fail',
-                'err_message'   => $validator->errors()
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Data Role',
+                'data'          => $validator->errors()
             ], 422);
         }
 
@@ -77,13 +80,15 @@ class RoleController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
+                'ins_message'   => 'Berhasil Menambahkan Data Role',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'fail',
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'ins_message'   => 'failed',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }
@@ -124,8 +129,9 @@ class RoleController extends Controller
         if(count($roles) == 0){
             return response()->json([
                 'success'       => true,
-                'message'       => 'fail',
-                'err_message'      => 'Data Tidak Ditemukan'
+                'message'       => 'failed',
+                'upd_message'   => 'failed',
+                'data'          => 'Data Tidak Ditemukan'
             ], 422);
         }
         
@@ -142,9 +148,10 @@ class RoleController extends Controller
 
         if($validator->fails()){
             return response()->json([
-                'success'       => true,
-                'message'       => 'Gagal Updata Data Role',
-                'err_message'      => $validator->errors()
+                'success'       => false,
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Role',
+                'data'          => $validator->errors()
             ], 422);
         }
 
@@ -153,14 +160,16 @@ class RoleController extends Controller
             $u_roles->update($request->all());
             return response()->json([
                 'success'       => true,
-                'message'       => 'Berhasil Update Data Role',
+                'message'       => 'failed',
+                'upd_message'   => 'Berhasil Update Role',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
-                'success'       => true,
-                'message'       => 'Gagal Update Data Role',
-                'err_message'   => $e->getMessage()
+                'success'       => false,
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Role',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }
@@ -177,9 +186,10 @@ class RoleController extends Controller
 
         if(count($roles) == 0){
             return response()->json([
-                'success'       => true,
-                'message'       => 'fail',
-                'err_message'      => 'Data Tidak Ditemukan'
+                'success'       => false,
+                'message'       => 'failed',
+                'del_message'   => 'Gagal Update Role',
+                'data'          => 'Data Tidak Ditemukan'
             ], 422);
         }
 
@@ -189,14 +199,16 @@ class RoleController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
+                'del_message'   => 'Gagal Update Role',
                 'data'          => 'Berhasil Hapus Data Role'
             ], 200);
 
         } catch (\Throwable $e) {
             return response()->json([
-                'success'       => true,
-                'message'       => 'Gagal Hapus Data',
-                'err_message'   => $e->getMessage()
+                'success'       => false,
+                'message'       => 'failed',
+                'del_message'   => 'Gagal Update Role',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }

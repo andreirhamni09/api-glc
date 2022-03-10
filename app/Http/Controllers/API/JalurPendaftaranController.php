@@ -19,15 +19,17 @@ class JalurPendaftaranController extends Controller
         $jalurPendaftarans = JalurPendaftaran::getAll();
         if(count($jalurPendaftarans) == 0){
             return response()->json([
-                'success'   => true,
-                'message'   => 'null',
-                'data'      => 'Belum Ada Data Jalur Pendaftaran Yang Diinputkan'
+                'success'       => false,
+                'message'       => 'failed',
+                'get_message'   => 'Belum Ada Jalur Pendaftaran Yang Dimasukan',
+                'data'          => false
             ], 422);
         }
         return response()->json([
-            'success'   => true,
-            'message'   => 'success',
-            'data'      => $jalurPendaftarans
+            'success'       => true,
+            'message'       => 'success',
+            'get_message'   => 'Data Jalur Pendaftaran',
+            'data'          => $jalurPendaftarans
         ], 200);
     }
 
@@ -65,24 +67,27 @@ class JalurPendaftaranController extends Controller
         if($validator->fails()){
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Menambahkan Jalur Pendaftaran',
-                'err_message'   => $validator->errors()
-            ], 200);
+                'message'       => 'failed',
+                'ins_message'   => 'Jalur Pendaftaran Gagal Diinputkan',
+                'data'          => $validator->errors()
+            ], 422);
         }
 
         try {
             $jalurPendaftarans = JalurPendaftaran::create($request->all());
             return response()->json([
                 'success'       => true,
-                'message'       => 'Jalur Pendaftaran Baru Telah Berhasil Ditambahkan',
+                'message'       => 'success',
+                'ins_message'   => 'Berhasil Menambahkan Jalur Pendaftaran Baru',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
-                'success'       => true,
-                'message'       => 'Jalur Pendaftarn Baru Gagal Ditambahkan',
-                'err_message'   => $e->getMessage()
-            ], 200);
+                'success'       => false,
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Jalur Pendaftaran Baru',
+                'data'          => $e->getMessage()
+            ], 422);
         }
     }
 
@@ -123,8 +128,9 @@ class JalurPendaftaranController extends Controller
         {
             return response()->json([
                 'status'        => false,
-                'message'       => 'Tidak Temukan Data',
-                'err_message'   => 'Data Jalur Pendaftaran Dengan ID :'. $id.' Tidak Ditemukan'
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Updata Data',
+                'data'          => 'Data Tidak Ditemukan'
             ]);
         }
 
@@ -144,8 +150,9 @@ class JalurPendaftaranController extends Controller
         if($validator->fails()){
             return response()->json([
                 'success'       => false,
-                'message'       => 'Gagal Menambahkan Jalur Pendaftaran',
-                'err_message'   => $validator->errors()
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Updata Data',
+                'data'          => $validator->errors()
             ], 422);
         }
 
@@ -156,14 +163,16 @@ class JalurPendaftaranController extends Controller
 
             return response()->json([
                 'success'       => true,
-                'message'       => 'Data Jalur Pendaftaran Berhasil Diupdate',
+                'message'       => 'success',
+                'upd_message'   => 'Berhasil Data Jalur Pendaftaran',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'Data Jalur Pendaftaran Berhasil Diupdate',
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Data',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }
@@ -183,13 +192,15 @@ class JalurPendaftaranController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'data'          => 'Berhasil Hapus Data Jalur Pendaftaran'
+                'del_message'   => 'Berhasil Hapus Jalur Pendaftaran',
+                'data'          => true
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => false,
-                'message'       => 'fail',
-                'err_message'   => $e->getMessage()
+                'message'       => 'failed',
+                'del_message'   => 'Gagal Hapus Data Jalur Pendaftaran',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }

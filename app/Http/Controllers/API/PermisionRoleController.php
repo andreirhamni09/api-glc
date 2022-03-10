@@ -19,15 +19,16 @@ class PermisionRoleController extends Controller
         if(count($permisionRoles) == 0)
         {
             return response()->json([
-                'success'       => true,
+                'success'       => false,
                 'message'       => 'failed',
-                'sel_message'   => 'Data Tidak Ditemukan'
+                'get_message'   => 'Data Tidak Ditemukan',
+                'data'          => null
             ], 422);
         }
         return response()->json([
             'success'       => true,
             'message'       => 'success',
-            'sel_message'   => 'Berikut Data Permision Role',
+            'get_message'   => 'Berikut Data Permision Role',
             'data'          => $permisionRoles
         ], 200);
     }

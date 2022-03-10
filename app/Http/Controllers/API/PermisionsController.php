@@ -19,16 +19,18 @@ class PermisionsController extends Controller
         $permisions = Permision::getAll();
         if(count($permisions) == 0){
             return response()->json([
-                'success'   => true,
-                'message'   => 'null',
-                'data'      => 'Belum Ada Data Permision Yang Diinputkan'
+                'success'       => false,
+                'message'       => 'failed',
+                'get_message'   => 'Belum Ada Data Permision Yang Diinputkan',
+                'data'          => null
             ], 422);
         }
 
         return response()->json([
-            'success'   => true,
-            'message'   => 'success',
-            'data'      => $permisions
+            'success'       => true,
+            'message'       => 'success',
+            'get_message'   => 'Data Permision',
+            'data'          => $permisions
         ], 200);
     }
 
@@ -68,9 +70,10 @@ class PermisionsController extends Controller
 
         if($validator->fails()){
             return response()->json([
-                'success'       => true,
-                'message'       => 'fails',
-                'ins_message'   => $validator->errors()
+                'success'       => false,
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Permision',
+                'data'          => $validator->errors()
             ], 422);
         }
 
@@ -80,12 +83,12 @@ class PermisionsController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'ins_message'   => 'Berhasil Memasukan data',
+                'ins_message'   => 'Data Permision',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
-                'success'       => true,
+                'success'       => false,
                 'message'       => 'failed',
                 'ins_message'   => 'Gagal Memasukan data',
                 'data'          => $e->getMessage()
@@ -129,9 +132,10 @@ class PermisionsController extends Controller
         if(count($permisions) == 0 )
         {
             return response()->json([
-                'success'       => true,
+                'success'       => false,
                 'message'       => 'failed',
-                'upd_message'   => 'Data Tidak Ditemukan'
+                'upd_message'   => 'Data Tidak Ditemukan',
+                'data'          => null
             ], 422);
         }
         
@@ -153,9 +157,10 @@ class PermisionsController extends Controller
 
         if($validator->fails()){
             return response()->json([
-                'success'       => true,
-                'message'       => 'fails',
-                'upd_message'   => $validator->errors()
+                'success'       => false,
+                'message'       => 'failed',
+                'upd_message'   => 'Gagal Update Permision',
+                'data'          => $validator->errors()
             ], 422);
         }
 
@@ -166,15 +171,15 @@ class PermisionsController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'upd_message'   => 'Berhasil Update Data',
-                'upd_detail'    => $request->all()
+                'upd_message'   => 'Berhasil Update Permision',
+                'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
                 'success'       => true,
                 'message'       => 'failed',
-                'upd_message'   => 'Gagal Update data',
-                'upd_detail'    => $e->getMessage()
+                'upd_message'   => 'Gagal Update Permision',
+                'data'          => $e->getMessage()
             ], 422);
         }
     }
@@ -194,7 +199,8 @@ class PermisionsController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'failed',
-                'del_message'   => 'Data Tidak Ditemukan'
+                'del_message'   => 'Data Tidak Ditemukan',
+                'data'          => null
             ], 422);
         }
 
@@ -205,7 +211,8 @@ class PermisionsController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'del_message'   => 'Berhasil Hapus Data Permisions'
+                'del_message'   => 'Berhasil Hapus Data Permisions',
+                'data'          => true
             ], 200);
 
         } catch (\Throwable $e) {
@@ -213,7 +220,7 @@ class PermisionsController extends Controller
                 'success'       => true,
                 'message'       => 'failed',
                 'del_message'   => 'Gagal Hapus Data Permision',
-                'det_message'   => $e->getMessage()
+                'data'          => $e->getMessage()
             ], 422);
         }
     }

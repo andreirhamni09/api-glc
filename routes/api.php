@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\Route;
 
   # ~~ Permision Role
   use App\Http\Controllers\API\PermisionRoleController;
-use App\Models\PermisionRole;
 
  # ~~
 # ~~
