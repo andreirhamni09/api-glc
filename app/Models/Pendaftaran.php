@@ -21,34 +21,18 @@ class Pendaftaran extends Model
     static function getAll(){
         $pendaftarans = DB::table('pendaftarans')
                         ->join('jalur_pendaftarans', 'pendaftarans.id_jalurs', '=', 'jalur_pendaftarans.id')
-                        ->join('tanggal_pendaftarans', 'pendaftarans.id', '=', 'tanggal_pendaftarans.id_pendaftarans')
-                        ->select('pendaftarans.*', 
-                                'jalur_pendaftarans.nama_jalur as jalur', 
-                                'tanggal_pendaftarans.gelombang as gelombang',
-                                'tanggal_pendaftarans.tanggal_mulai as tanggal_mulai',
-                                'tanggal_pendaftarans.tanggal_selesai as tanggal_selesai',
-                                'tanggal_pendaftarans.bya_pendidikan as bya_pendidikan',
-                                'tanggal_pendaftarans.pot_pendidikan as pot_pendidikan')
+                        ->select('pendaftarans.*', 'jalur_pendaftarans.nama_jalur as jalur')
                         ->get();
         return $pendaftarans;
+    }
 
-        /* $tglPendaftarans = DB::table('pendaftarans')
-                        ->join('jalur_pendaftarans', 'pendaftarans.id_jalurs', '=', 'jalur_pendaftarans.id')
-                        ->join('tanggal_pendaftarans', 'pendaftarans.id', '=', 'tanggal_pendaftarans.id_pendaftarans')
-                        ->select('jalur_pendaftarans.nama_jalur as jalur', 
-                                'tanggal_pendaftarans.id_pendaftarans as id_pendaftarans',
-                                'tanggal_pendaftarans.gelombang as gelombang',
-                                'tanggal_pendaftarans.tanggal_mulai as tanggal_mulai',
-                                'tanggal_pendaftarans.tanggal_selesai as tanggal_selesai',
-                                'tanggal_pendaftarans.bya_pendidikan as bya_pendidikan',
-                                'tanggal_pendaftarans.pot_pendidikan as pot_pendidikan')
+    static function findPendaftaran($id){
+        $pendaftarans = DB::table('pendaftarans')
+                        ->where('id', '=', $id)
                         ->get();
-        $pendaftarans   = DB::table('pendaftarans')->get();
-        $dataPendaftaran = [
-            'pendaftaran'       => $pendaftarans,
-            'tglPendaftaran'    => $tglPendaftarans
-        ];
-        return $dataPendaftaran; */
+        /* $pendaftarans = Pendaftaran::find($id); */
+        return $pendaftarans;
     }
 
 }
+

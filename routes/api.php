@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 
   # ~~ Permision Role
   use App\Http\Controllers\API\PermisionRoleController;
+use App\Http\Controllers\API\TanggalPendaftaranController;
+use App\Models\TanggalPendaftaran;
 
  # ~~
 # ~~
@@ -74,6 +76,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::resource('pendaftaran', PendaftaranController::class);
        # ~~ 
 
+       # ~~ TanggalPendaftaran
+        Route::resource('tanggal-pendaftaran', TanggalPendaftaranController::class);
+        /* Route::post('add-tanggal-pendaftaran/{idPendaftaran}', [TanggalPendaftaran::class, 'index']);
+        Route::post('upd-tanggal-pendaftaran/{idPendaftaran}', [TanggalPendaftaran::class, 'index']); */
+       # ~~
+
        # ~~ Role
         Route::resource('role', RoleController::class);
        # ~~
@@ -82,7 +90,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::resource('permision', PermisionsController::class);
        # ~~ 
 
-       # ~~ Permision
+       # ~~ Permision Role
        Route::resource('permisionrole', PermisionRoleController::class);
        # ~~ 
     });
