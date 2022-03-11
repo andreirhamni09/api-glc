@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 
  # ~~ JalurPendaftaran
   use App\Http\Controllers\API\JalurPendaftaranController;
- # ~~
+use App\Http\Controllers\API\MatakuliahController;
+# ~~
 
  
  # ~~ Pendaftaran 
@@ -80,6 +81,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::resource('tanggal-pendaftaran', TanggalPendaftaranController::class);
         /* Route::post('add-tanggal-pendaftaran/{idPendaftaran}', [TanggalPendaftaran::class, 'index']);
         Route::post('upd-tanggal-pendaftaran/{idPendaftaran}', [TanggalPendaftaran::class, 'index']); */
+       # ~~
+
+       # ~~ MataKuliah
+        Route::resource('mata-kuliah', MatakuliahController::class);
        # ~~
 
        # ~~ Role
