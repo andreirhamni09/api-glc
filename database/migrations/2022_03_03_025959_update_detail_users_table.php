@@ -15,8 +15,7 @@ class UpdateDetailUsersTable extends Migration
     {
         Schema::table('detail_users', function (Blueprint $table) {
             $table->foreign('id_users')->references('id')->on('users');            
-            $table->foreign('id_jurusans')->references('id')->on('jurusans');            
-            $table->foreign('id_pendaftarans')->references('id')->on('pendaftarans');
+            $table->foreign('id_jurusans')->references('id')->on('jurusans');           
             
         });
     }
@@ -31,7 +30,6 @@ class UpdateDetailUsersTable extends Migration
         Schema::table('detail_users', function (Blueprint $table) {
             $table->dropForeign(['id_users']);
             $table->dropForeign(['id_jurusans']);
-            $table->dropForeign(['id_pendaftarans']);
         });
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNilaiSiswasTable extends Migration
+class CreatePendaftaranSiswasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateNilaiSiswasTable extends Migration
      */
     public function up()
     {
-        Schema::create('nilai_siswas', function (Blueprint $table) {
+        Schema::create('pendaftaran_siswas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedMediumInteger('id_matakuliahs');
             $table->unsignedInteger('id_peserta_didiks');
-            $table->float('nilai', 8, 2);
+            $table->string('jlr_pendaftaran');
+            $table->string('gelombang');
+            $table->string('bya_pendidikan');
+            $table->string('pot_pendidikan');
+            $table->date('tgl_daftar');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateNilaiSiswasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai_siswas');
+        Schema::dropIfExists('pendaftaran_siswas');
     }
 }

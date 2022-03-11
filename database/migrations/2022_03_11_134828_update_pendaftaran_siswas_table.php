@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJadwalMengajarsTable extends Migration
+class UpdatePendaftaranSiswasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateJadwalMengajarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal_mengajars', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('id_users');
-            $table->unsignedMediumInteger('id_matakuliah');
-            $table->timestamps();
+        Schema::table('pendaftaran_siswas', function (Blueprint $table) {            
+            $table->foreign('id_peserta_didiks')->references('id')->on('detail_users');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateJadwalMengajarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadwal_mengajars');
+        Schema::table('pendaftaran_siswas', function (Blueprint $table) {
+            $table->dropForeign(['id_peserta_didiks']);
+        });
     }
 }

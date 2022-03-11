@@ -14,6 +14,7 @@ class CreateTanggalPendaftaransTable extends Migration
     public function up()
     {
         Schema::create('tanggal_pendaftarans', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('id_pendaftarans');
             $table->string('gelombang', 45);
             $table->date('tanggal_mulai');
