@@ -96,7 +96,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
        # ~~ 
 
        # ~~ Permision Role
-       Route::resource('permisionrole', PermisionRoleController::class);
+       Route::resource('permision-role', PermisionRoleController::class);
        # ~~ 
     });
 # ~~ ADMIN

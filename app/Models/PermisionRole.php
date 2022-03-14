@@ -20,5 +20,12 @@ class PermisionRole extends Model
         return $permisionRoles;
     }
 
+    static function findPermisionRoles($id){
+        $permisionRoles = DB::table('permision_roles')
+                        ->where('id', '=', $id)
+                        ->get();
+
+        return $permisionRoles;
+    }
     
 }
