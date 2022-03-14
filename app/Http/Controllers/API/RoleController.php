@@ -87,7 +87,7 @@ class RoleController extends Controller
             return response()->json([
                 'success'       => false,
                 'message'       => 'failed',
-                'ins_message'   => 'failed',
+                'ins_message'   => 'Gagal Menambahkan Data Role',
                 'data'          => $e->getMessage()
             ], 422);
         }

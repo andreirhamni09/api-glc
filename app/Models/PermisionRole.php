@@ -10,6 +10,11 @@ class PermisionRole extends Model
 {
     use HasFactory;
 
+    public $primaryKey = 'id';
+    protected $fillable = [
+        'id_roles',
+        'id_permisions'
+    ];
 
     static function getAll(){
         $permisionRoles = DB::table('permision_roles')

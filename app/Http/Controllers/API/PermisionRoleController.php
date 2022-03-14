@@ -63,7 +63,7 @@ class PermisionRoleController extends Controller
                 'success'       => false,
                 'message'       => 'failed',
                 'ins_message'   => 'Gagal Menambahkan Data Permision Role',
-                'data'          => 'Data User atau Role Tidak Dimasukan Dengan Benar'
+                'data'          => 'Data Role atau Permision Tidak Dimasukan Dengan Benar'
             ], 422);
         }
 
@@ -96,22 +96,30 @@ class PermisionRoleController extends Controller
             }
 
             try {
-                $insPermisionRoles = PermisionRole::create($dataPermisionRoles);
-                return response()->json([
-                    'success'       => true,
-                    'message'       => 'success',
-                    'ins_message'   => 'Berhasil Memasukan Data Permision Roles',
-                    'data'          => $dataPermisionRoles
-                ], 200);
+                $insPermisionRoles = new PermisionRole;
+                $insPermisionRoles->id_roles        = $dataPermisionRoles['id_roles'];
+                $insPermisionRoles->id_permisions   = $dataPermisionRoles['id_permisions'];
+                $insPermisionRoles->save();
             } catch (\Throwable $ex) {
                 return response()->json([
                     'success'       => false,
                     'message'       => 'failed',
-                    'ins_message'   => 'Gagal Memasukan Data Permision Roles',
+                    'ins_message'   => 'Gagal Memasukan Data Permision Roles 2',
                     'data'          => $ex->getMessage()
                 ], 422);
             }
         }
+        
+        $dataInsPermisions = [
+            'id_roles'      => $request->input('id_roles'),
+            'id_permisions' => implode(',', $request->input('id_permisions'))
+        ];
+        return response()->json([
+            'success'       => true,
+            'message'       => 'success',
+            'ins_message'   => 'Berhasil Memasukan Data Permision Roles',
+            'data'          => $dataInsPermisions
+        ], 200);
     }
 
     /**
