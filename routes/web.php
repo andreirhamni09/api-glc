@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+# ~~ Peserta Didik
+ Route::prefix('/')->group(function(){
+    Route::get('', function(){
+        return view('test');
+    });
 });
+# ~~
+
+
 
 Route::get('/test', function(){
     return view('test');
