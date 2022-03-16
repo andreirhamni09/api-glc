@@ -15,7 +15,7 @@ class JurusanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
         $jurusans = Jurusan::getAll();
         if(count($jurusans) == 0)
@@ -27,7 +27,7 @@ class JurusanController extends Controller
                 'data'          => false
             ], 422);
         }
-
+        
         return response()->json([
             'success'       => true,
             'message'       => 'success',
@@ -52,7 +52,7 @@ class JurusanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $rules = [
             'id'        => 'required|unique:jurusans,id|min:3|max:10',

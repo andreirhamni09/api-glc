@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminJurusanController;
+use App\Http\Controllers\API\JurusanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +21,11 @@ use Illuminate\Support\Facades\Route;
     Route::get('', function(){
         return view('test');
     });
-});
+ });
+
+ Route::prefix('/admin')->group(function(){
+    Route::resource('jurusan', AdminJurusanController::class);
+ });
 # ~~
 
 
