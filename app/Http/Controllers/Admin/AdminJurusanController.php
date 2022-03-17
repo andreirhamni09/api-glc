@@ -30,7 +30,7 @@ class AdminJurusanController extends Controller
      */
     public function create()
     {
-        //
+        echo 'mantap1';
     }
 
     /**
@@ -56,7 +56,7 @@ class AdminJurusanController extends Controller
      */
     public function show($id)
     {
-        //
+        echo 'mantap2';
     }
 
     /**
@@ -67,9 +67,8 @@ class AdminJurusanController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo 'mantap3';
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -79,7 +78,12 @@ class AdminJurusanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $updateJurusan = JurusanController::update($request, $id);
+        
+        $data         = json_decode(json_encode($updateJurusan), true);
+        $data         = $data['original'];
+        
+        return redirect()->back()->with('Update Jurusan');
     }
 
     /**
@@ -90,6 +94,13 @@ class AdminJurusanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        /* $delJurusan     = JurusanController::destroy($id);
+        $data           = json_decode(json_encode($delJurusan), true);
+        $data           = $data['original'];
+        return $data; */
+        return 'mantap';
+    }
+
+    public function hapus(){
     }
 }

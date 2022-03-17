@@ -33,7 +33,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <ul class="navbar-nav">
@@ -192,11 +192,10 @@
             <!-- /.content-header -->
 
             @if(\Session::has('AddJurusanStatus'))
-                {{  $data  = \Session::get('AddJurusanStatus');  }}
-
-                <?php echo $data['data']['id']; ?>
+            <script>
+            </script>
             @else
-               
+
             @endif
             <!-- Main content -->
             <section class="content">
@@ -247,21 +246,67 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
+                                                <th>Kode Jurusan</th>
                                                 <th>Jurusan</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php
+                                            $jumlah = 0;
+                                            ?>
                                             @if($jurusan['data'] === false)
                                             <tr>
                                                 <td colspan="3">Belum Ada Jurusan Yang Ditambahkan</td>
                                             </tr>
                                             @else
-                                                @foreach($jurusan['data'] as $value)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                    </tr>
-                                                @endforeach
+                                            @foreach($jurusan['data'] as $value)
+                                            <?php $jumlah += 1; ?>
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $value['id'] }}</td>
+                                                <td>{{ $value['jurusan'] }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-jurusan-{{$loop->iteration}}">Edit</button>
+                                                    <input type="hidden" id="kode{{ $loop->iteration }}" value="{{$value['id']}}">
+                                                    <a style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="modal fade" id="modal-edit-jurusan-{{$loop->iteration}}">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Jurusan</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action="{{ url('admin/jurusan/'.$value['id']) }}" method="POST">
+                                                            <input name="_method" type="hidden" value="PUT">
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="" class="float-sm-left">Kode Jurusan</label>
+                                                                    <input type="text" name="id" id="" class="form-control" placeholder="001" value="{{ $value['id'] }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="" class="float-sm-left">Nama Jurusan</label>
+                                                                    <input type="text" name="jurusan" id="" class="form-control" placeholder="Manajemen Informatika" value="{{ $value['jurusan'] }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-between">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="Submit" class="btn btn-primary">Ubah Data Jurusan</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+
+                                            @endforeach
                                             @endif
                                         </tbody>
                                     </table>
@@ -326,6 +371,28 @@
     <script src="{{ asset('public/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('public/js/demo.js') }}"></script>
+
+    <script>
+        var jumlah = '<?php echo $jumlah; ?>';
+        for (let index = 1; index <= jumlah; index++) {
+            $('#delete' + index + '').on('click', function(e) {
+                var kode = $('#kode' + index + '').val();
+
+                $.ajax({
+                    url: " {{ url('del-jurusan') }} ",
+                    method: "POST",
+                    data: {
+                    },
+                    success: function(response) {
+                        alert('Berhasil');
+                    },
+                    error: function(response) {
+                        alert('Gagal');
+                    }
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

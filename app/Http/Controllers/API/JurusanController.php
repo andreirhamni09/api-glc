@@ -127,7 +127,7 @@ class JurusanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function update(Request $request, $id)
     {
         $jurusans = Jurusan::findJurusan($id);
 
@@ -192,7 +192,7 @@ class JurusanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         try {
             $jurusans = Jurusan::find($id);

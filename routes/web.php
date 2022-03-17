@@ -25,9 +25,10 @@ use Illuminate\Support\Facades\Route;
 
  Route::prefix('/admin')->group(function(){
     Route::resource('jurusan', AdminJurusanController::class);
+   
  });
 # ~~
-
+Route::get('del-jurusan', [AdminJurusanController::class, 'hapus'])->name('admin.del-jurusan');
 
 
 Route::get('/test', function(){
