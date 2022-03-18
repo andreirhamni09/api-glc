@@ -29,6 +29,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link href="{{ asset('public/img/Logo GEC.png') }}" rel="shortcut icon">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -371,20 +373,36 @@
     <script src="{{ asset('public/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('public/js/demo.js') }}"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    
     <script>
         var jumlah = '<?php echo $jumlah; ?>';
         for (let index = 1; index <= jumlah; index++) {
             $('#delete' + index + '').on('click', function(e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                e.preventDefault();
+
                 var kode = $('#kode' + index + '').val();
 
                 $.ajax({
-                    url: " {{ url('del-jurusan') }} ",
-                    method: "POST",
+                    type: 'delete',
+                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/jurusan/'+kode,
                     data: {
                     },
-                    success: function(response) {
-                        alert('Berhasil');
+                    success: function(data) {
+                        if(data['message'] == 'success')
+                        {
+                            alert(data['del_message']);
+                            location.reload();
+                        }
+                        else{
+                            alert(data['data']);
+                            location.reload();
+                        }
                     },
                     error: function(response) {
                         alert('Gagal');

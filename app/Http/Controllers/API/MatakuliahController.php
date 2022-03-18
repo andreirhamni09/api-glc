@@ -14,7 +14,7 @@ class MatakuliahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
         $mata_kuliah = MataKuliah::getAll();
         if (count($mata_kuliah) == 0) {
@@ -22,7 +22,7 @@ class MatakuliahController extends Controller
                 'success'       => false,
                 'message'       => 'failed',
                 'get_message'   => 'Gagal Mendaftarkan Matakuliah',
-                'data'          => 'Matakuliah Belum Diinputkan'
+                'data'          => false
             ], 422);
         }
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\API\JurusanController;
+use App\Http\Controllers\API\MatakuliahController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminJurusanController extends Controller
+class AdminMatakuliahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,11 @@ class AdminJurusanController extends Controller
      */
     public function index()
     {
-        $jurusan = JurusanController::index();
-        
-        $data    = json_decode(json_encode($jurusan), true);
+        $mataKuliah = MatakuliahController::index();
+        $data       = json_decode(json_encode($mataKuliah), true);
+        $data       = $data['original'];
 
-        $data    = $data['original'];
-        return view('karyawan.admin.jurusans', ['jurusan' => $data]);
+        return view('karyawan.admin.mata-kuliahs', ['matakuliah' => $data]);
     }
 
     /**
@@ -30,7 +29,7 @@ class AdminJurusanController extends Controller
      */
     public function create()
     {
-        echo 'mantap1';
+        //
     }
 
     /**
@@ -41,11 +40,7 @@ class AdminJurusanController extends Controller
      */
     public function store(Request $request)
     {
-        $addJurusan   = JurusanController::store($request);
-
-        $data         = json_decode(json_encode($addJurusan), true);
-        $data         = $data['original'];
-        return redirect()->back()->with('AddJurusanStatus', $data);
+        //
     }
 
     /**
@@ -56,7 +51,7 @@ class AdminJurusanController extends Controller
      */
     public function show($id)
     {
-        echo 'mantap2';
+        //
     }
 
     /**
@@ -67,8 +62,9 @@ class AdminJurusanController extends Controller
      */
     public function edit($id)
     {
-        echo 'mantap3';
+        //
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -78,12 +74,7 @@ class AdminJurusanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updateJurusan = JurusanController::update($request, $id);
-        
-        $data         = json_decode(json_encode($updateJurusan), true);
-        $data         = $data['original'];
-        
-        return redirect()->back()->with('Update Jurusan');
+        //
     }
 
     /**
@@ -94,9 +85,6 @@ class AdminJurusanController extends Controller
      */
     public function destroy($id)
     {
-        $deleteJurusan  = JurusanController::destroy($id);
-        $data           = json_decode(json_encode($deleteJurusan), true);
-        $data           = $data['original'];
-        return $data;
+        //
     }
 }
