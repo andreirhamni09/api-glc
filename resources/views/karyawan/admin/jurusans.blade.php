@@ -194,10 +194,69 @@
             <!-- /.content-header -->
 
             @if(\Session::has('AddJurusanStatus'))
-            <script>
-            </script>
-            @else
-
+                @if(\Session::get('AddJurusanStatus')['message'] == 'failed')
+                    @php
+                        $data = \Session::get('AddJurusanStatus')['data'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        
+                        var pesanError = '';
+                        
+                        if(data['id'] !== null )
+                        {
+                            pesanError += data['id'];
+                        }
+                        
+                        if(data['jurusan'] !== null && pesanError !== ''){
+                            pesanError += "\r\n";
+                            pesanError += data['jurusan'];
+                        }
+                        alert(pesanError);
+                    </script>
+                @else
+                    @php
+                        $data = \Session::get('AddJurusanStatus')['ins_message'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        alert(data);
+                    </script>
+                @endif
+            @elseif(\Session::has('UpdJurusanStatus'))
+                @if(\Session::get('UpdJurusanStatus')['message'] == 'failed')
+                    @php
+                        $data = \Session::get('UpdJurusanStatus')['data'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        
+                        var pesanError = '';
+                        
+                        if(data['id'] !== null )
+                        {
+                            pesanError += data['id'];
+                        }
+                        
+                        if(data['jurusan'] !== null && pesanError !== ''){
+                            pesanError += "\r\n";
+                            pesanError += data['jurusan'];
+                        }
+                        alert(pesanError);
+                    </script>
+                @else
+                    @php
+                        $data = \Session::get('UpdJurusanStatus')['upd_message'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        alert(data);
+                    </script>
+                @endif        
             @endif
             <!-- Main content -->
             <section class="content">

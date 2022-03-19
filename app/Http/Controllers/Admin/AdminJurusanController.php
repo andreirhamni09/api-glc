@@ -83,7 +83,7 @@ class AdminJurusanController extends Controller
         $data         = json_decode(json_encode($updateJurusan), true);
         $data         = $data['original'];
         
-        return redirect()->back()->with('Update Jurusan');
+        return redirect()->back()->with('UpdJurusanStatus', $data);
     }
 
     /**
