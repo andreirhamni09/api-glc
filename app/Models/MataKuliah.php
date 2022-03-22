@@ -23,7 +23,7 @@ class MataKuliah extends Model
     static function getAll(){
         $matakuliah = DB::table('mata_kuliahs')
                     ->join('jurusans', 'mata_kuliahs.id_jurusans', '=', 'jurusans.id')
-                    ->select('mata_kuliahs.*', 'jurusans.jurusan')
+                    ->select('mata_kuliahs.*', 'jurusans.jurusan as jurusan')
                     ->get();
         return $matakuliah;
     }

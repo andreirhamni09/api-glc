@@ -94,8 +94,8 @@ class AdminJurusanController extends Controller
      */
     public function destroy($id)
     {
-        $deleteJurusan  = JurusanController::destroy($id);
-        $data           = json_decode(json_encode($deleteJurusan), true);
+        $delMataKuliah  = JurusanController::destroy($id);
+        $data           = json_decode(json_encode($delMataKuliah), true);
         $data           = $data['original'];
         return $data;
     }

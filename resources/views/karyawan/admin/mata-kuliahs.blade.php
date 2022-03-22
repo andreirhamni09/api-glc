@@ -193,7 +193,78 @@
             </div>
             <!-- /.content-header -->
 
-            @if(\Session::has('AddJurusanStatus'))
+            @if(\Session::has('addMataKuliah'))
+                @if(\Session::get('addMataKuliah')['message'] == 'failed')
+                    @php
+                        $data = \Session::get('addMataKuliah')['data'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        
+                        var pesanError = '';
+                        if(data['matakuliah'] != undefined)
+                        {
+                            pesanError += data['matakuliah'];
+                            pesanError += '\r\n';
+                        }
+                        if(data['semester'] != undefined)
+                        {
+                            pesanError += data['semester'];
+                            pesanError += '\r\n';
+                        }        
+                        if(data['id_jurusans'] != undefined)
+                        {
+                            pesanError += data['id_jurusans'];
+                            pesanError += '\r\n';
+                        }
+                        if(data['hari'] != undefined)
+                        {
+                            pesanError += data['hari'];
+                            pesanError += '\r\n';
+                        }
+                        if(data['jam_mulai'] != undefined)
+                        {
+                            pesanError += data['jam_mulai'];
+                            pesanError += '\r\n';
+                        }
+                        if(data['jam_selesai'] != undefined)
+                        {
+                            pesanError += data['jam_selesai'];
+                            pesanError += '\r\n';
+                        }
+
+                        if(
+                            data['matakuliah']     == undefined &&     
+                            data['semester']       == undefined &&     
+                            data['id_jurusans']    == undefined &&     
+                            data['hari']           == undefined && 
+                            data['jam_mulai']      == undefined &&     
+                            data['jam_selesai']    == undefined   
+                        )
+                        {
+                            pesanError += data;
+                        }
+                        
+                        // if(data['id'] !== null )
+                        // {
+                        //     pesanError += data['id'];
+                        // }
+                        
+                        // if(data['jurusan'] !== null && pesanError !== ''){
+                        // }
+                        alert(pesanError);
+                    </script>
+                @else
+                    @php
+                        $data = \Session::get('addMataKuliah')['ins_message'];
+                    @endphp
+                    <script>
+                        var data    = '<?php echo json_encode($data);  ?>';
+                        data        = JSON.parse(data);
+                        alert(data);
+                    </script>
+                @endif
             <script>
             </script>
             @else
@@ -207,9 +278,9 @@
                         <div class="col-md-8 mx-auto">
                             <div class="card" style="border:4px solid black;">
                                 <div class="card-header" style="border-bottom:3px solid black;">
-                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Jurusan</h3>
-                                    <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download Jurusan">
-                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah Jurusan" data-toggle="modal" data-target="#modal-tambah-jurusan">
+                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Mata Kuliah</h3>
+                                    <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download">
+                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-jurusan">
                                     <!-- Modal Tambah Jurusan -->
                                     <div class="modal fade" id="modal-tambah-jurusan">
                                         <div class="modal-dialog">
@@ -220,21 +291,78 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="{{ url('admin/jurusan') }}" method="POST">
+                                                <form action="{{ url('admin/mata-kuliahs') }}" method="POST">
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="">Kode Jurusan</label>
-                                                            <input type="text" name="id" id="" class="form-control" placeholder="001">
+                                                            <label for="">Matakuliah</label>
+                                                            <input type="text" name="matakuliah" class="form-control" placeholder="Bahasa Inggris">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="">Nama Jurusan</label>
-                                                            <input type="text" name="jurusan" id="" class="form-control" placeholder="Manajemen Informatika">
+                                                            <label for="">Jurusan</label>
+                                                            @if($jurusan['data'] === false)
+                                                                <a href="{{ url('admin/jurusan') }}" class="form-control btn btn-success">Tambah Jurusan</a>
+                                                            @else
+                                                            <select name="id_jurusans" class="form-control">
+                                                                @foreach($jurusan['data'] as $value)
+                                                                <option value="{{ $value['id'] }}">{{ $value['jurusan'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @endif
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Semester</label>
+                                                            <input type="number" name="semester" class="form-control" placeholder="1">
+                                                        </div>
+                                                        <div id="jadwal">
+                                                            <input type="hidden" id="jumlah_jadwal" name="jumlah_jadwal" value="1">
+                                                            <div class="row" id="row1">
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="">Hari</label>
+                                                                        <select name="hari[]" class="form-control">
+                                                                            <option value="Senin">Senin</option>
+                                                                            <option value="Selasa">Selasa</option>
+                                                                            <option value="Rabu">Rabu</option>
+                                                                            <option value="Kamis">Kamis</option>
+                                                                            <option value="Jumat">Jumat</option>
+                                                                            <option value="Sabtu">Sabtu</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="">Jam Mulai</label>
+                                                                        <input type="time" name="jam_mulai[]" id="" class="form-control" value="00:00">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="">Jam Selesai</label>
+                                                                        <input type="time" name="jam_selesai[]" id="" class="form-control" value="00:00">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="">Hapus</label>
+                                                                        <button onclick="hapusJadwal(this.id)" type="button" id="hapusJadwal1" class="form-control btn btn-danger">Hapus</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <button id="tambah_jadwal" class="btn btn-success w-40 float-sm-right" type="button">
+                                                                        Tambah Jadwal
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer justify-content-between">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="Submit" class="btn btn-primary">Tambah Jurusan</button>
+                                                        <button type="Submit" class="btn btn-primary">Tambah Matakuliah</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -243,13 +371,16 @@
                                         <!-- /.modal-dialog -->
                                     </div>
                                 </div>
-                                <div class="card-body" style="text-align:center; background-color: #06B8FF;">
+
+                                <div class="card-body table-responsive" style="text-align:center; background-color: #06B8FF;">
                                     <table id="example1" style="background-color: white;" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode Jurusan</th>
+                                                <th>Mata Kuliah</th>
                                                 <th>Jurusan</th>
+                                                <th>Jadwal</th>
+                                                <th>Semester</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -258,56 +389,140 @@
                                             $jumlah = 0;
                                             ?>
                                             @if($matakuliah['data'] === false)
-                                            <tr>
-                                                <td colspan="3">Belum Ada Matakuliah Yang Ditambahkan</td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="6">Belum Ada Matakuliah Yang Ditambahkan</td>
+                                                </tr>
                                             @else
-                                            @foreach($jurusan['data'] as $value)
+                                            @foreach($matakuliah['data'] as $value)                                            
                                             <?php $jumlah += 1; ?>
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $value['id'] }}</td>
-                                                <td>{{ $value['jurusan'] }}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-jurusan-{{$loop->iteration}}">Edit</button>
-                                                    <input type="hidden" id="kode{{ $loop->iteration }}" value="{{$value['id']}}">
-                                                    <a style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
+                                                    <td style="vertical-align: middle;">{{ $value['matakuliah'] }}</td>      
+                                                    <td style="vertical-align: middle;">{{ $value['jurusan'] }}</td>  
+                                                    @php
+                                                        {{ 
+                                                            $hari       = explode('|', $value['hari']);
+                                                            $jamMulai   = explode('|', $value['jam_mulai']);
+                                                            $jamSelesai = explode('|', $value['jam_selesai']);
+                                                        }}
+                                                    @endphp  
+                                                    <td>
+                                                        @for($i = 0; $i < count($hari); $i++)
+                                                            {{ $hari[$i] }} , {{ $jamMulai[$i] }}-{{ $jamSelesai[$i] }} <br>
+                                                        @endfor
+                                                    </td>  
+                                                    <td style="vertical-align: middle;">{{ $value['semester'] }}</td>
+                                                    <td style="vertical-align: middle;">                                                        
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-mata-kuliah-{{$loop->iteration}}">Edit</button>
+                                                        <input type="hidden" id="kode{{ $loop->iteration }}" value="{{$value['id']}}">
+                                                        <a style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
+                                                    </td> 
+                                                </tr>                                                
 
-                                            <div class="modal fade" id="modal-edit-jurusan-{{$loop->iteration}}">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Edit Jurusan</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
+                                                <div class="modal fade" id="modal-edit-mata-kuliah-{{$loop->iteration}}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Edit Mata Kuliah</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="{{ url('admin/mata-kuliahs/'.$value['id']) }}" method="POST">
+                                                                <input name="_method" type="hidden" value="PUT">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="" class="float-sm-left">Mata Kuliah</label>
+                                                                        <input type="text" name="matakuliah_{{ $value['id'] }}" class="form-control" placeholder="Bahasa Inggris" value="{{ $value['matakuliah'] }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="" class="float-sm-left">Jurusan</label>
+                                                                        @if($jurusan['data'] === false)
+                                                                            <a href="{{ url('admin/jurusan') }}" class="form-control btn btn-success">Tambah Jurusan</a>
+                                                                        @else
+                                                                        <select name="id_jurusans_{{ $value['id'] }}" class="form-control">
+                                                                            @foreach($jurusan['data'] as $value2)
+                                                                                @if($value2['jurusan'] == $value['jurusan'])
+                                                                                    <option value="{{ $value['id'] }}" selected>{{ $value2['jurusan'] }}</option>
+                                                                                @else
+                                                                                    <option value="{{ $value['id'] }}">{{ $value2['jurusan'] }}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="" class="float-sm-left">Semester</label>
+                                                                        <input type="number" name="semester_{{ $value['id'] }}" id="" class="form-control" value="{{ $value['semester'] }}">
+                                                                    </div>
+                                                                    
+                                                                    <div id="jadwal_{{ $value['id'] }}" >
+                                                                        @php
+                                                                            {{ $arr_hari         = array("Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"); }}                                                                            
+                                                                        @endphp          
+                                                                        <input type="hidden" id="jumlah_{{$value['id']}}" value="{{ count($hari) }}">                 
+                                                                        @for($i = 0; $i < count($hari); $i++)
+                                                                        @php
+                                                                            {{ $nomor = $i + 1; }}
+                                                                        @endphp
+                                                                        <div class="row" id="row_{{ $nomor }}">
+                                                                            <div class="col-md-3"> 
+                                                                                <div class="form-group">                                                 
+                                                                                    <label for="" class="float-sm-left">Hari</label>
+                                                                                    <select name="hari_{{ $value['id'] }}[]" class="form-control">
+                                                                                    @for($j = 0; $j < count($arr_hari); $j++)               
+                                                                                        @if( $arr_hari[$j] == $hari[$i] )
+                                                                                            <option value="{{ $arr_hari[$j] }}" selected> {{ $arr_hari[$j] }} </option>
+                                                                                        @else
+                                                                                            <option value="{{ $arr_hari[$j] }}"> {{ $arr_hari[$j] }} </option>
+                                                                                        @endif
+                                                                                    @endfor
+                                                                                    </select> 
+                                                                                </div>                           
+                                                                            </div>  
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group"> 
+                                                                                    <label for="" class="float-sm-left">Jam Mulai</label>
+                                                                                    <input type="time" name="jam_mulai_{{ $value['id'] }}[]" id="" class="form-control" value="{{ $jamMulai[$i] }}">
+                                                                                </div> 
+                                                                            </div>     
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group"> 
+                                                                                    <label for="" class="float-sm-left">Jam Mulai</label>
+                                                                                    <input type="time" name="jam_selesai_{{ $value['id'] }}[]" id="" class="form-control" value="{{ $jamSelesai[$i] }}">
+                                                                                </div> 
+                                                                            </div>     
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group"> 
+                                                                                    <label for="" class="float-sm-left">Hapus</label>
+                                                                                    <button type="button" class="form-control btn btn-danger">Hapus</button>
+                                                                                </div> 
+                                                                            </div>                                
+                                                                        </div>
+                                                                        @endfor  
+                                                                    </div>
+                                                                    
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <button onclick="updateTambahJadwal(<?php echo $value['id']; ?>)" class="btn btn-success w-40 float-sm-right" type="button">
+                                                                                    Tambah Jadwal
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    <button type="Submit" class="btn btn-primary">Ubah Data Jurusan</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                        <form action="{{ url('admin/jurusan/'.$value['id']) }}" method="POST">
-                                                            <input name="_method" type="hidden" value="PUT">
-                                                            @csrf
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <label for="" class="float-sm-left">Kode Jurusan</label>
-                                                                    <input type="text" name="id" id="" class="form-control" placeholder="001" value="{{ $value['id'] }}">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="" class="float-sm-left">Nama Jurusan</label>
-                                                                    <input type="text" name="jurusan" id="" class="form-control" placeholder="Manajemen Informatika" value="{{ $value['jurusan'] }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer justify-content-between">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                <button type="Submit" class="btn btn-primary">Ubah Data Jurusan</button>
-                                                            </div>
-                                                        </form>
+                                                        <!-- /.modal-content -->
                                                     </div>
-                                                    <!-- /.modal-content -->
+                                                    <!-- /.modal-dialog -->
                                                 </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-
                                             @endforeach
                                             @endif
                                         </tbody>
@@ -376,6 +591,146 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     
     <script>
+        // DELETE
+        var jumlah = '<?php echo $jumlah; ?>';
+        for (let index = 1; index <= jumlah; index++) {
+            $('#delete' + index + '').on('click', function(e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                e.preventDefault();
+
+                var kode = $('#kode' + index + '').val();
+
+                $.ajax({
+                    type: 'delete',
+                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/mata-kuliahs/'+kode,
+                    data: {
+                    },
+                    success: function(data) {
+                        if(data['message'] == 'success')
+                        {
+                            alert(data['del_message']);
+                            location.reload();
+                        }
+                        else{
+                            alert(data['data']);
+                            location.reload();
+                        }
+
+                        //alert(response);
+                    },
+                    error: function(response) {
+                        alert('Gagal');
+                    }
+                });
+            });
+        }
+        // ~~
+
+        // ~~ Tambah Matakuliah ADD JADWAL
+        $('#tambah_jadwal').click(function(){
+            var jumlah   = parseInt( $('#jumlah_jadwal').val() ) + 1;
+            var teksAdd  = '';
+            teksAdd     += "<div class='row' id='row"+jumlah+"'>";
+            teksAdd     += "    <div class='col-md-3'>";
+            teksAdd     += "        <div class='form-group'>";
+            teksAdd     += "            <label for=''>Hari</label>";
+            teksAdd     += "            <select name='hari[]' class='form-control'>";
+            teksAdd     += "                <option value='Senin'>Senin</option>";
+            teksAdd     += "                <option value='Selasa'>Selasa</option>";
+            teksAdd     += "                <option value='Rabu'>Rabu</option>";
+            teksAdd     += "                <option value='Kamis'>Kamis</option>";
+            teksAdd     += "                <option value='Jumat'>Jumat</option>";
+            teksAdd     += "                <option value='Sabtu'>Sabtu</option>";
+            teksAdd     += "            </select>";
+            teksAdd     += "        </div>";
+            teksAdd     += "    </div>";
+            teksAdd     += "    <div class='col-md-3'>";
+            teksAdd     += "        <div class='form-group'>";
+            teksAdd     += "            <label for=''>Jam Mulai</label>";
+            teksAdd     += "            <input type='time' name='jam_mulai[]' id='' class='form-control' value='00:00'>";
+            teksAdd     += "        </div>";
+            teksAdd     += "    </div>";
+            teksAdd     += "    <div class='col-md-3'>";
+            teksAdd     += "        <div class='form-group'>";
+            teksAdd     += "            <label for=''>Jam Selesai</label>";
+            teksAdd     += "            <input type='time' name='jam_selesai[]' id='' class='form-control' value='00:00'>";
+            teksAdd     += "        </div>";
+            teksAdd     += "    </div>";
+            teksAdd     += "    <div class='col-md-3'>";
+            teksAdd     += "        <div class='form-group'>";
+            teksAdd     += "            <label for='' class='float-sm-left'>Hapus</label>";
+            teksAdd     += "            <button onclick='hapusJadwal(this.id)' type='button' id='hapusJadwal"+jumlah+"' class='form-control btn btn-danger'>Hapus</button>";
+            teksAdd     += "        </div>";
+            teksAdd     += "    </div>";
+            teksAdd     += "</div>";
+
+            $('#jadwal').append(teksAdd);
+
+           document.getElementById('jumlah_jadwal').value = jumlah;
+
+        });
+
+        function hapusJadwal(id){
+            var nmr = id.substr(-1, 1);
+            $('#row'+nmr+'').remove();
+        }
+        // ~~
+
+
+        // ~~ Update 
+
+        // ~~  Update Fungsi Menambahkan Jadwal Di edit Matakuliah
+        function updateTambahJadwal(id)
+        {
+            var jum = parseInt($('#jumlah_'+id).val()) + 1;
+            document.getElementById('jumlah_'+id).value = jum;
+
+            var teksAppend    = "";
+            teksAppend       += "<div class='row' id='row_"+jum+"'>";
+            teksAppend       += "<div class='col-md-3'>";
+            teksAppend       += "<div class='form-group'>";
+            teksAppend       += "<label for=''>Hari</label>";
+            teksAppend       += "<select name='hari_"+id+"[]' class='form-control'>";
+            teksAppend       += "<option value='Senin'>Senin</option>";
+            teksAppend       += "<option value='Selasa'>Selasa</option>";
+            teksAppend       += "<option value='Rabu'>Rabu</option>";
+            teksAppend       += "<option value='Kamis'>Kamis</option>";
+            teksAppend       += "<option value='Jumat'>Jumat</option>";
+            teksAppend       += "<option value='Sabtu'>Sabtu</option>";
+            teksAppend       += "</select>";
+            teksAppend       += "</div>";
+            teksAppend       += "</div>";
+            teksAppend       += "<div class='col-md-3'>";
+            teksAppend       += "<div class='form-group'>";
+            teksAppend       += "<label for=''>Jam Mulai</label>";
+            teksAppend       += "<input type='time' name='jam_mulai_"+id+"[]' id='' class='form-control' value='00:00'>";
+            teksAppend       += "</div>";
+            teksAppend       += "</div>";
+            teksAppend       += "<div class='col-md-3'>";
+            teksAppend       += "<div class='form-group'>";
+            teksAppend       += "<label for=''>Jam Selesai</label>";
+            teksAppend       += "<input type='time' name='jam_selesai_"+id+"[]' id='' class='form-control' value='00:00'>";
+            teksAppend       += "</div>";
+            teksAppend       += "</div>";
+            teksAppend       += "<div class='col-md-3'>";
+            teksAppend       += "<div class='form-group'>";
+            teksAppend       += "<label for='' class='float-sm-left'>Hapus</label>";
+            teksAppend       += "<button onclick='' type='button' class='form-control btn btn-danger'>Hapus</button>";
+            teksAppend       += "</div>";
+            teksAppend       += "</div>";
+            teksAppend       += "</div>";
+
+            $('#jadwal_'+id+'').append(teksAppend);
+        }
+
+        // ~~
+        
+
+
     </script>
 </body>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\MatakuliahController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,11 +16,14 @@ class AdminMatakuliahController extends Controller
      */
     public function index()
     {
-        $mataKuliah = MatakuliahController::index();
-        $data       = json_decode(json_encode($mataKuliah), true);
-        $data       = $data['original'];
+        $mataKuliah     = MatakuliahController::index();
+        $dataMatakuliah = json_decode(json_encode($mataKuliah), true);
+        $dataMatakuliah = $dataMatakuliah['original'];
 
-        return view('karyawan.admin.mata-kuliahs', ['matakuliah' => $data]);
+        $jurusan        = JurusanController::index();
+        $dataJurusan    = json_decode(json_encode($jurusan), true);
+        $dataJurusan    = $dataJurusan['original'];
+        return view('karyawan.admin.mata-kuliahs', ['matakuliah' => $dataMatakuliah, 'jurusan' => $dataJurusan]);
     }
 
     /**
@@ -40,7 +44,12 @@ class AdminMatakuliahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $addMataKuliah  = MatakuliahController::store($request);
+        $data           = json_decode(json_encode($addMataKuliah), true);
+        $data           = $data['original'];
+
+        // return $data;
+        return redirect()->back()->with('addMataKuliah', $data);
     }
 
     /**
@@ -74,7 +83,7 @@ class AdminMatakuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $request->all();
     }
 
     /**
@@ -85,6 +94,10 @@ class AdminMatakuliahController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delMatakuliah  = MatakuliahController::destroy($id);
+        $data           = json_decode(json_encode($delMatakuliah), true);
+        $data           = $data['original'];
+        
+        return $data;
     }
 }

@@ -267,8 +267,8 @@
                             <div class="card" style="border:4px solid black;">
                                 <div class="card-header" style="border-bottom:3px solid black;">
                                     <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Jurusan</h3>
-                                    <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download Jurusan">
-                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah Jurusan" data-toggle="modal" data-target="#modal-tambah-jurusan">
+                                    <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download">
+                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-jurusan">
                                     <!-- Modal Tambah Jurusan -->
                                     <div class="modal fade" id="modal-tambah-jurusan">
                                         <div class="modal-dialog">
@@ -302,7 +302,7 @@
                                         <!-- /.modal-dialog -->
                                     </div>
                                 </div>
-                                <div class="card-body" style="text-align:center; background-color: #06B8FF;">
+                                <div class="card-body  table-responsive" style="text-align:center; background-color: #06B8FF;">
                                     <table id="example1" style="background-color: white;" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
@@ -318,7 +318,7 @@
                                             ?>
                                             @if($jurusan['data'] === false)
                                             <tr>
-                                                <td colspan="3">Belum Ada Jurusan Yang Ditambahkan</td>
+                                                <td colspan="4">Belum Ada Jurusan Yang Ditambahkan</td>
                                             </tr>
                                             @else
                                             @foreach($jurusan['data'] as $value)

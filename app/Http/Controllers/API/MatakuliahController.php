@@ -44,13 +44,30 @@ class MatakuliahController extends Controller
         //
     }
 
+    function cekArray($array)
+    {
+    	$status = false;
+        for ($i=0; $i < count($array) ; $i++) { 
+        	$dataCek = $array[$i];
+            unset($array[$i]);
+            if(in_array($dataCek, $array)){
+            	$status = false;
+                break;
+            }
+            else{
+            	$status = true;
+            }
+        }
+        return $status;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         if(
             is_array($request->input('hari')) === false OR is_array($request->input('jam_mulai')) === false OR
@@ -78,6 +95,16 @@ class MatakuliahController extends Controller
                 'message'       => 'failed',
                 'ins_message'   => 'Gagal Memasukan Data Matakuliah',
                 'data'          => 'Jumlah Data Hari, Jam Mulai, dan Jam Selesai Tidak Sama'
+            ], 422);
+        }
+
+        $cekArray = Self::cekArray($request->input('hari'));
+        if($cekArray === false){
+            return response()->json([
+                'success'       => false,
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Memasukan Data Matakuliah',
+                'data'          => 'Hari Yang Dimasukan Sama'
             ], 422);
         }
 
@@ -250,7 +277,8 @@ class MatakuliahController extends Controller
                 'id_jurusans.exists'        => 'Jurusan Tidak Ditemukan',       
                 'matakuliah.required'       => 'Matakuliah Wajib Diisi',       
                 'matakuliah.min'            => 'Matakuliah Diisi Dengan Minimal 3 Karakter',       
-                'matakuliah.max'            => 'Matakuliah Diisi Dengan Maksimal 100 Karakter',        
+                'matakuliah.max'            => 'Matakuliah Diisi Dengan Maksimal 100 Karakter',     
+                'matakuliah.max'            => 'Matakuliah Diisi Dengan Maksimal 100 Karakter',       
                 'hari.required'             => 'Hari Wajib Diisi',    
                 'hari.in'                   => 'Hari Tidak Ditemukan',
                 'jam_mulai.required'        => 'Jam Mulai Wajib Diisi',    
@@ -310,7 +338,7 @@ class MatakuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $findMatakuliah = MataKuliah::findMataKuliah($id);
         if(count($findMatakuliah) == 0)
@@ -324,7 +352,7 @@ class MatakuliahController extends Controller
         }
         try {
             $delMataKuliah = MataKuliah::find($id);
-            $delMataKuliah->delete;
+            $delMataKuliah->delete();
 
             return response()->json([
                 'success'       => true,
