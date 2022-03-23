@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\API\JurusanController;
-use App\Http\Controllers\API\MatakuliahController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminMatakuliahController extends Controller
+class AdminRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,14 +15,11 @@ class AdminMatakuliahController extends Controller
      */
     public function index()
     {
-        $mataKuliah     = MatakuliahController::index();
-        $dataMatakuliah = json_decode(json_encode($mataKuliah), true);
-        $dataMatakuliah = $dataMatakuliah['original'];
-
-        $jurusan        = JurusanController::index();
-        $dataJurusan    = json_decode(json_encode($jurusan), true);
-        $dataJurusan    = $dataJurusan['original'];
-        return view('karyawan.admin.mata-kuliahs', ['matakuliah' => $dataMatakuliah, 'jurusan' => $dataJurusan]);
+        $getRoles   = RoleController::index();
+        $dataRoles  = json_decode(json_encode($getRoles), true);
+        $dataRoles  = $dataRoles['original'];
+        
+        return view('karyawan.admin.roles', ['role' => $dataRoles]);
     }
 
     /**
@@ -44,12 +40,13 @@ class AdminMatakuliahController extends Controller
      */
     public function store(Request $request)
     {
-        $addMataKuliah  = MatakuliahController::store($request);
-        $data           = json_decode(json_encode($addMataKuliah), true);
-        $data           = $data['original'];
+        $addRole    = RoleController::store($request);
+        $dataRole   = json_decode(json_encode($addRole), true);
+        $dataRole   = $dataRole['original'];
 
-        // return $data;
-        return redirect()->back()->with('addMataKuliah', $data);
+        // return $dataRole;
+
+        return redirect()->back()->with('addRole', $dataRole);
     }
 
     /**
@@ -83,11 +80,12 @@ class AdminMatakuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updMataKuliah  = MatakuliahController::update($request, $id);
-        $data           = json_decode(json_encode($updMataKuliah), true);
-        $data           = $data['original'];
+        $updRole = RoleController::update($request, $id);
+        $updRole = json_decode(json_encode($updRole), true);
 
-        return $data;
+        $dataRole = $updRole['original'];
+
+        return redirect()->back()->with('updRole', $dataRole);
     }
 
     /**
@@ -98,10 +96,11 @@ class AdminMatakuliahController extends Controller
      */
     public function destroy($id)
     {
-        $delMatakuliah  = MatakuliahController::destroy($id);
-        $data           = json_decode(json_encode($delMatakuliah), true);
-        $data           = $data['original'];
-        
-        return $data;
+        $delRole    = RoleController::destroy($id);
+        $delRole    = json_decode(json_encode($delRole), true);
+
+        $dataRole   = $delRole['original'];
+
+        return $dataRole;
     }
 }

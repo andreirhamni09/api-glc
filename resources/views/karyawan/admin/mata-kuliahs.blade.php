@@ -316,7 +316,10 @@
                                                         </div>
                                                         <div id="jadwal">
                                                             <input type="hidden" id="jumlah_jadwal" name="jumlah_jadwal" value="1">
-                                                            <div class="row" id="row1">
+                                                            <div class="row" id="row_1">
+                                                                @php
+                                                                    {{ $nomor = 1;}}
+                                                                @endphp
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label for="">Hari</label>
@@ -345,7 +348,7 @@
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label for="">Hapus</label>
-                                                                        <button onclick="hapusJadwal(this.id)" type="button" id="hapusJadwal1" class="form-control btn btn-danger">Hapus</button>
+                                                                        <button onclick="hapusJadwal(<?php echo $nomor; ?>)" type="button" id="hapusJadwal1" class="form-control btn btn-danger">Hapus</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -434,19 +437,19 @@
                                                                 <div class="modal-body">
                                                                     <div class="form-group">
                                                                         <label for="" class="float-sm-left">Mata Kuliah</label>
-                                                                        <input type="text" name="matakuliah_{{ $value['id'] }}" class="form-control" placeholder="Bahasa Inggris" value="{{ $value['matakuliah'] }}">
+                                                                        <input type="text" name="matakuliah_{{ $value['id'] }}" id="matakuliah_{{ $value['id'] }}" class="form-control" placeholder="Bahasa Inggris" value="{{ $value['matakuliah'] }}">
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="" class="float-sm-left">Jurusan</label>
                                                                         @if($jurusan['data'] === false)
                                                                             <a href="{{ url('admin/jurusan') }}" class="form-control btn btn-success">Tambah Jurusan</a>
                                                                         @else
-                                                                        <select name="id_jurusans_{{ $value['id'] }}" class="form-control">
-                                                                            @foreach($jurusan['data'] as $value2)
-                                                                                @if($value2['jurusan'] == $value['jurusan'])
-                                                                                    <option value="{{ $value['id'] }}" selected>{{ $value2['jurusan'] }}</option>
+                                                                        <select id="id_jurusans_{{ $value['id'] }}" name="id_jurusans_{{ $value['id'] }}" class="form-control">
+                                                                            @foreach($jurusan['data'] as $valJurusan)
+                                                                                @if($valJurusan['id'] == $value['id_jurusans'])
+                                                                                    <option value="{{ $valJurusan['id'] }}" selected>{{ $valJurusan['jurusan'] }}</option>
                                                                                 @else
-                                                                                    <option value="{{ $value['id'] }}">{{ $value2['jurusan'] }}</option>
+                                                                                    <option value="{{ $valJurusan['id'] }}">{{ $valJurusan['jurusan'] }}</option>
                                                                                 @endif
                                                                             @endforeach
                                                                         </select>
@@ -454,7 +457,7 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="" class="float-sm-left">Semester</label>
-                                                                        <input type="number" name="semester_{{ $value['id'] }}" id="" class="form-control" value="{{ $value['semester'] }}">
+                                                                        <input type="number" name="semester_{{ $value['id'] }}" id="semester_{{ $value['id'] }}" class="form-control" value="{{ $value['semester'] }}">
                                                                     </div>
                                                                     
                                                                     <div id="jadwal_{{ $value['id'] }}" >
@@ -466,7 +469,7 @@
                                                                         @php
                                                                             {{ $nomor = $i + 1; }}
                                                                         @endphp
-                                                                        <div class="row" id="row_{{ $nomor }}">
+                                                                        <div class="row" id="row_{{ $value['id'] }}_{{ $nomor }}">
                                                                             <div class="col-md-3"> 
                                                                                 <div class="form-group">                                                 
                                                                                     <label for="" class="float-sm-left">Hari</label>
@@ -496,7 +499,7 @@
                                                                             <div class="col-md-3">
                                                                                 <div class="form-group"> 
                                                                                     <label for="" class="float-sm-left">Hapus</label>
-                                                                                    <button type="button" class="form-control btn btn-danger">Hapus</button>
+                                                                                    <button type="button" class="form-control btn btn-danger" onclick="updateHapusJadwal(<?php echo $value['id'];?>, <?php echo $nomor; ?>)">Hapus</button>
                                                                                 </div> 
                                                                             </div>                                
                                                                         </div>
@@ -515,7 +518,7 @@
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                    <button type="Submit" class="btn btn-primary">Ubah Data Jurusan</button>
+                                                                    <button onclick="updateData(<?php echo $value['id']; ?>)" type="button" class="btn btn-primary">Ubah Data Jurusan</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -634,7 +637,7 @@
         $('#tambah_jadwal').click(function(){
             var jumlah   = parseInt( $('#jumlah_jadwal').val() ) + 1;
             var teksAdd  = '';
-            teksAdd     += "<div class='row' id='row"+jumlah+"'>";
+            teksAdd     += "<div class='row' id='row_"+jumlah+"'>";
             teksAdd     += "    <div class='col-md-3'>";
             teksAdd     += "        <div class='form-group'>";
             teksAdd     += "            <label for=''>Hari</label>";
@@ -663,7 +666,7 @@
             teksAdd     += "    <div class='col-md-3'>";
             teksAdd     += "        <div class='form-group'>";
             teksAdd     += "            <label for='' class='float-sm-left'>Hapus</label>";
-            teksAdd     += "            <button onclick='hapusJadwal(this.id)' type='button' id='hapusJadwal"+jumlah+"' class='form-control btn btn-danger'>Hapus</button>";
+            teksAdd     += "            <button onclick='hapusJadwal("+jumlah+")' type='button' id='hapusJadwal"+jumlah+"' class='form-control btn btn-danger'>Hapus</button>";
             teksAdd     += "        </div>";
             teksAdd     += "    </div>";
             teksAdd     += "</div>";
@@ -674,9 +677,8 @@
 
         });
 
-        function hapusJadwal(id){
-            var nmr = id.substr(-1, 1);
-            $('#row'+nmr+'').remove();
+        function hapusJadwal(jumlah){
+            $('#row_'+jumlah+'').remove();
         }
         // ~~
 
@@ -690,7 +692,7 @@
             document.getElementById('jumlah_'+id).value = jum;
 
             var teksAppend    = "";
-            teksAppend       += "<div class='row' id='row_"+jum+"'>";
+            teksAppend       += "<div class='row' id='row_"+id+"_"+jum+"'>";
             teksAppend       += "<div class='col-md-3'>";
             teksAppend       += "<div class='form-group'>";
             teksAppend       += "<label for=''>Hari</label>";
@@ -707,26 +709,135 @@
             teksAppend       += "<div class='col-md-3'>";
             teksAppend       += "<div class='form-group'>";
             teksAppend       += "<label for=''>Jam Mulai</label>";
-            teksAppend       += "<input type='time' name='jam_mulai_"+id+"[]' id='' class='form-control' value='00:00'>";
+            teksAppend       += "<input type='time' name='jam_mulai_"+id+"[]' class='form-control'>";
             teksAppend       += "</div>";
             teksAppend       += "</div>";
             teksAppend       += "<div class='col-md-3'>";
             teksAppend       += "<div class='form-group'>";
             teksAppend       += "<label for=''>Jam Selesai</label>";
-            teksAppend       += "<input type='time' name='jam_selesai_"+id+"[]' id='' class='form-control' value='00:00'>";
+            teksAppend       += "<input type='time' name='jam_selesai_"+id+"[]' class='form-control'>";
             teksAppend       += "</div>";
             teksAppend       += "</div>";
             teksAppend       += "<div class='col-md-3'>";
             teksAppend       += "<div class='form-group'>";
             teksAppend       += "<label for='' class='float-sm-left'>Hapus</label>";
-            teksAppend       += "<button onclick='' type='button' class='form-control btn btn-danger'>Hapus</button>";
+            teksAppend       += "<button onclick='updateHapusJadwal("+id+", "+jum+")' type='button' class='form-control btn btn-danger'>Hapus</button>";
             teksAppend       += "</div>";
             teksAppend       += "</div>";
             teksAppend       += "</div>";
 
             $('#jadwal_'+id+'').append(teksAppend);
         }
+        function updateHapusJadwal(id, nmr)
+        {
+            $('#row_'+id+'_'+nmr+'').remove();
+        }
 
+        function updateData(id)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            var jurusan_        = $('#id_jurusans_'+id+'').val();
+
+            var matakuliah_     = $('#matakuliah_'+id+'').val();  
+
+            var semester_       = $('#semester_'+id+'').val();  
+
+            // ~~ HARI  
+            var hari_           = [];
+            for (let index = 0; index < document.getElementsByName('hari_'+id+'[]').length; index++) {
+                hari_.push(document.getElementsByName('hari_'+id+'[]')[index].value);
+            }
+            // ~~
+
+            // ~~ JAM MULAI
+            var jam_mulai_      = [];
+            for (let index = 0; index < document.getElementsByName('jam_mulai_'+id+'[]').length; index++) {
+                jam_mulai_.push(document.getElementsByName('jam_mulai_'+id+'[]')[index].value);
+            }
+            // ~~
+
+            // ~~ JAM SELESAI
+            var jam_selesai_      = [];
+            for (let index = 0; index < document.getElementsByName('jam_selesai_'+id+'[]').length; index++) {
+                jam_selesai_.push(document.getElementsByName('jam_selesai_'+id+'[]')[index].value);
+            }
+            // ~~
+
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/mata-kuliahs/'+id,
+                data: {
+                    id_jurusans     : jurusan_,
+                    matakuliah      : matakuliah_,
+                    hari            : hari_,
+                    jam_mulai       : jam_mulai_,
+                    jam_selesai     : jam_selesai_,
+                    semester        : semester_
+                },
+                success: function(data) {
+                    if(data['success'] == false)
+                    {
+                        var pesan = '';
+                        if(data['data']['id_jurusans'] != undefined)
+                        {
+                            pesan += data['data']['id_jurusans'];
+                            pesan += '\r\n';
+                        }
+
+                        if(data['data']['matakuliah']      != undefined)
+                        {
+                            pesan += data['data']['matakuliah'];
+                            pesan += '\r\n';
+                        }          
+                        if(data['data']['hari']            != undefined)
+                        {
+                            pesan += data['data']['hari'];
+                            pesan += '\r\n';
+                        }
+                        if(data['data']['jam_mulai']       != undefined)
+                        {
+                            pesan += data['data']['jam_mulai'];
+                            pesan += '\r\n';
+                        }    
+                        if(data['data']['jam_selesai']     != undefined)
+                        {
+                            pesan += data['data']['jam_selesai'];
+                            pesan += '\r\n';
+                        }    
+                        if(data['data']['semester']        != undefined)
+                        {
+                            pesan += data['data']['semester'];
+                            pesan += '\r\n';
+                        }    
+
+                        if(
+                            data['data']['id_jurusans'] == undefined &&             
+                            data['data']['matakuliah']  == undefined &&        
+                            data['data']['hari']        == undefined &&    
+                            data['data']['jam_mulai']   == undefined &&        
+                            data['data']['jam_selesai'] == undefined &&            
+                            data['data']['semester']    == undefined        
+                        ){
+                            pesan += data['data'];     
+                            pesan += '\r\n';
+                        }
+                        alert(pesan);
+                    }
+                    else{
+                        alert(data['upd_message']);
+                        location.reload();
+                    }
+                },
+                error: function(response) {
+                    alert('Gagal');
+                }
+            });
+        }
         // ~~
         
 

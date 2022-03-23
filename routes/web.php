@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminJurusanController;
 use App\Http\Controllers\Admin\AdminMatakuliahController;
+use App\Http\Controllers\Admin\AdminPermisionController;
+use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\API\JurusanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,12 +29,10 @@ use Illuminate\Support\Facades\Route;
  Route::prefix('/admin')->group(function(){
     Route::resource('jurusan', AdminJurusanController::class);   
     Route::resource('mata-kuliahs', AdminMatakuliahController::class);
+    Route::resource('permision', AdminPermisionController::class);
+    Route::resource('role', AdminRoleController::class);
  });
 # ~~
-
-Route::post('del-jurusan', function(){
-    return 'Mantap'; 
-});
 
 
 Route::get('/test', function(){

@@ -15,7 +15,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
         $roles = Role::getAll();
 
@@ -52,7 +52,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $rules      = [
             'nama_roles' => 'required|unique:roles,nama_roles|min:3|max:25'
@@ -122,7 +122,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function update(Request $request, $id)
     {
         $roles = Role::findRoles($id);
 
@@ -180,7 +180,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $roles = Role::findRoles($id);
 
@@ -195,11 +195,11 @@ class RoleController extends Controller
 
         try {
             $d_roles = Role::find($id);
-            $d_roles->delete($id);
+            $d_roles->delete();
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'del_message'   => 'Gagal Update Role',
+                'del_message'   => 'Data Berhasil Dihapus',
                 'data'          => 'Berhasil Hapus Data Role'
             ], 200);
 

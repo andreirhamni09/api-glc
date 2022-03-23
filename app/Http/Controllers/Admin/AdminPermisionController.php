@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\API\JurusanController;
-use App\Http\Controllers\API\MatakuliahController;
+use App\Http\Controllers\API\PermisionsController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminMatakuliahController extends Controller
+class AdminPermisionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,14 +15,11 @@ class AdminMatakuliahController extends Controller
      */
     public function index()
     {
-        $mataKuliah     = MatakuliahController::index();
-        $dataMatakuliah = json_decode(json_encode($mataKuliah), true);
-        $dataMatakuliah = $dataMatakuliah['original'];
-
-        $jurusan        = JurusanController::index();
-        $dataJurusan    = json_decode(json_encode($jurusan), true);
-        $dataJurusan    = $dataJurusan['original'];
-        return view('karyawan.admin.mata-kuliahs', ['matakuliah' => $dataMatakuliah, 'jurusan' => $dataJurusan]);
+        $getPermision   = PermisionsController::index();
+        $dataPermision  = json_decode(json_encode($getPermision), true);
+        $dataPermision  = $dataPermision['original'];
+        
+        return view('karyawan.admin.permisions', ['permision' => $dataPermision]);
     }
 
     /**
@@ -44,12 +40,7 @@ class AdminMatakuliahController extends Controller
      */
     public function store(Request $request)
     {
-        $addMataKuliah  = MatakuliahController::store($request);
-        $data           = json_decode(json_encode($addMataKuliah), true);
-        $data           = $data['original'];
-
-        // return $data;
-        return redirect()->back()->with('addMataKuliah', $data);
+        //
     }
 
     /**
@@ -83,11 +74,7 @@ class AdminMatakuliahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updMataKuliah  = MatakuliahController::update($request, $id);
-        $data           = json_decode(json_encode($updMataKuliah), true);
-        $data           = $data['original'];
-
-        return $data;
+        //
     }
 
     /**
@@ -98,10 +85,6 @@ class AdminMatakuliahController extends Controller
      */
     public function destroy($id)
     {
-        $delMatakuliah  = MatakuliahController::destroy($id);
-        $data           = json_decode(json_encode($delMatakuliah), true);
-        $data           = $data['original'];
-        
-        return $data;
+        //
     }
 }

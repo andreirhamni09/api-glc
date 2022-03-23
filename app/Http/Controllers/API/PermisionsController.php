@@ -14,7 +14,7 @@ class PermisionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
         $permisions = Permision::getAll();
         if(count($permisions) == 0){

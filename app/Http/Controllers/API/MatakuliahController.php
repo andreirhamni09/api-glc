@@ -126,6 +126,7 @@ class MatakuliahController extends Controller
                 'jam_selesai'   => ['required', 'date_format:H:i', 'after:jam_mulai'],        
                 'semester'      => ['required', 'numeric', 'min:1', 'max:2']    
             ];
+            
             $message = [ 
                 'id_jurusans.required'      => 'Jurusan Wajib Diisi',  
                 'id_jurusans.exists'        => 'Jurusan Tidak Ditemukan',       
@@ -212,7 +213,7 @@ class MatakuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function update(Request $request, $id)
     {
         $findMatakuliah = MataKuliah::findMataKuliah($id);
         if(count($findMatakuliah) == 0)
@@ -251,6 +252,16 @@ class MatakuliahController extends Controller
                 'message'       => 'failed',
                 'upd_message'   => 'Gagal Update Data Matakuliah',
                 'data'          => 'Jumlah Data Hari, Jam Mulai, dan Jam Selesai Tidak Sama'
+            ], 422);
+        }
+
+        $cekArray = Self::cekArray($request->input('hari'));
+        if($cekArray === false){
+            return response()->json([
+                'success'       => false,
+                'message'       => 'failed',
+                'ins_message'   => 'Gagal Memasukan Data Matakuliah',
+                'data'          => 'Hari Yang Dimasukan Sama'
             ], 422);
         }
 

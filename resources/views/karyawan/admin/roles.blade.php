@@ -179,6 +179,62 @@
             <!-- /.sidebar -->
         </aside>
 
+        @if(\Session::has('addRole'))
+            @if(\Session::get('addRole')['success'] == false)
+                @php
+                    $data = \Session::get('addRole')['data'];
+                @endphp
+                <script>
+                    var data    = '<?php echo json_encode($data);  ?>';
+                    data        = JSON.parse(data);
+                    
+                    var pesanError = '';
+                    if(data['nama_roles'] != undefined)
+                    {
+                        pesanError += data['nama_roles'];
+                        pesanError += '\r\n';
+                    }
+                    alert(pesanError);
+                </script>
+            @else
+                @php
+                    $data = \Session::get('addRole')['ins_message'];
+                @endphp
+                <script>
+                    var data    = '<?php echo json_encode($data);  ?>';
+                    data        = JSON.parse(data);
+                    alert(data);
+                </script>
+            @endif
+        @elseif(\Session::has('updRole'))
+            @if(\Session::get('updRole')['success'] == false)
+                @php
+                    $data = \Session::get('updRole')['data'];
+                @endphp
+                <script>
+                    var data    = '<?php echo json_encode($data);  ?>';
+                    data        = JSON.parse(data);
+                    
+                    var pesanError = '';
+                    if(data['nama_roles'] != undefined)
+                    {
+                        pesanError += data['nama_roles'];
+                        pesanError += '\r\n';
+                    }
+                    alert(pesanError);
+                </script>
+            @else
+                @php
+                    $data = \Session::get('updRole')['ins_message'];
+                @endphp
+                <script>
+                    var data    = '<?php echo json_encode($data);  ?>';
+                    data        = JSON.parse(data);
+                    alert(data);
+                </script>
+            @endif
+        @endif
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -186,114 +242,44 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Dashboard</h1>
+                            <h1 class="m-0 text-dark">Role</h1>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-
-            @if(\Session::has('AddJurusanStatus'))
-                @if(\Session::get('AddJurusanStatus')['message'] == 'failed')
-                    @php
-                        $data = \Session::get('AddJurusanStatus')['data'];
-                    @endphp
-                    <script>
-                        var data    = '<?php echo json_encode($data);  ?>';
-                        data        = JSON.parse(data);
-                        
-                        var pesanError = '';
-                        
-                        if(data['id'] !== null )
-                        {
-                            pesanError += data['id'];
-                        }
-                        
-                        if(data['jurusan'] !== null && pesanError !== ''){
-                            pesanError += "\r\n";
-                            pesanError += data['jurusan'];
-                        }
-                        alert(pesanError);
-                    </script>
-                @else
-                    @php
-                        $data = \Session::get('AddJurusanStatus')['ins_message'];
-                    @endphp
-                    <script>
-                        var data    = '<?php echo json_encode($data);  ?>';
-                        data        = JSON.parse(data);
-                        alert(data);
-                    </script>
-                @endif
-            @elseif(\Session::has('UpdJurusanStatus'))
-                @if(\Session::get('UpdJurusanStatus')['message'] == 'failed')
-                    @php
-                        $data = \Session::get('UpdJurusanStatus')['data'];
-                    @endphp
-                    <script>
-                        var data    = '<?php echo json_encode($data);  ?>';
-                        data        = JSON.parse(data);
-                        
-                        var pesanError = '';
-                        
-                        if(data['id'] !== null )
-                        {
-                            pesanError += data['id'];
-                        }
-                        
-                        if(data['jurusan'] !== null && pesanError !== ''){
-                            pesanError += "\r\n";
-                            pesanError += data['jurusan'];
-                        }
-                        alert(pesanError);
-                    </script>
-                @else
-                    @php
-                        $data = \Session::get('UpdJurusanStatus')['upd_message'];
-                    @endphp
-                    <script>
-                        var data    = '<?php echo json_encode($data);  ?>';
-                        data        = JSON.parse(data);
-                        alert(data);
-                    </script>
-                @endif        
-            @endif
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                        <div class="col-md-8 mx-auto">
+                        <div class="col-md-6 mx-auto">
                             <div class="card" style="border:4px solid black;">
                                 <div class="card-header" style="border-bottom:3px solid black;">
-                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Jurusan</h3>
+                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Role</h3>
                                     <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download">
-                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-jurusan">
+                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-role">
                                     <!-- Modal Tambah Jurusan -->
-                                    <div class="modal fade" id="modal-tambah-jurusan">
+                                    <div class="modal fade" id="modal-tambah-role">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Tambah Jurusan</h4>
+                                                    <h4 class="modal-title">Tambah Role</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="{{ url('admin/jurusan') }}" method="POST">
+                                                <form action="{{ url('admin/role') }}" method="POST">
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="">Kode Jurusan</label>
-                                                            <input type="text" name="id" id="" class="form-control" placeholder="001">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="">Nama Jurusan</label>
-                                                            <input type="text" name="jurusan" id="" class="form-control" placeholder="Manajemen Informatika">
+                                                            <label for="">Nama Role</label>
+                                                            <input type="text" name="nama_roles" id="" class="form-control" placeholder="Admin">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer justify-content-between">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="Submit" class="btn btn-primary">Tambah Jurusan</button>
+                                                        <button type="Submit" class="btn btn-primary">Tambah Role</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -307,23 +293,59 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode Jurusan</th>
-                                                <th>Jurusan</th>
+                                                <th>Nama Role</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $jumlah = 0;
+                                                $jumlah = 0;                                                
                                             ?>
-                                            @if($permision['data'] === false)
-                                            <tr>
-                                                <td colspan="4">Belum Ada Jurusan Yang Ditambahkan</td>
-                                            </tr>
+                                            @if($role['success'] ===  false)
+                                                <tr>
+                                                    <td colspan="3">Data Role Belum Diinputkan</td>
+                                                </tr>
                                             @else
-                                            @foreach($permision['data'] as $value)
+                                                @foreach($role['data'] as $roleData)
+                                                    <?php $jumlah += 1; ?>
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td style="width: 65%;">{{ $roleData['nama_roles'] }}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-role-{{$loop->iteration}}">Edit</button>
+                                                            <a style="color:white;" onclick="hapusData(<?php echo $roleData['id'];?>)" class="btn btn-danger">Hapus</a>
+                                                        </td>
+                                                    </tr>                                                    
 
-                                            @endforeach
+                                                    <div class="modal fade" id="modal-edit-role-{{$loop->iteration}}">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Edit Role</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="{{ url('admin/role/'.$roleData['id']) }}" method="POST">
+                                                                    <input name="_method" type="hidden" value="PUT">
+                                                                    @csrf
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <label for="" class="float-sm-left">Role</label>
+                                                                            <input type="text" name="nama_roles" id="" class="form-control" placeholder="001" value="{{ $roleData['nama_roles'] }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <button type="Submit" class="btn btn-primary">Ubah Data Jurusan</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <!-- /.modal-content -->
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                @endforeach
                                             @endif
                                         </tbody>
                                     </table>
@@ -401,11 +423,13 @@
                 });
                 e.preventDefault();
 
-                var kode = $('#kode' + index + '').val();
+                var id = $('#kode' + index + '').val();
+
+                // alert(kode);
 
                 $.ajax({
                     type: 'delete',
-                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/jurusan/'+kode,
+                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/role/'+id,
                     data: {
                     },
                     success: function(data) {
@@ -423,6 +447,36 @@
                         alert('Gagal');
                     }
                 });
+            });
+        }
+
+        function hapusData(id)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/role/'+id,
+                data: {
+                },
+                success: function(data) {
+                    if(data['message'] == 'success')
+                    {
+                        alert(data['del_message']);
+                        location.reload();
+                    }
+                    else{
+                        alert(data['data']);
+                        location.reload();
+                    }
+                },
+                error: function(response) {
+                    alert('Gagal');
+                }
             });
         }
     </script>
