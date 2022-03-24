@@ -193,10 +193,10 @@
             </div>
             <!-- /.content-header -->
 
-            @if(\Session::has('AddJurusanStatus'))
-                @if(\Session::get('AddJurusanStatus')['message'] == 'failed')
+            @if(\Session::has('addPermision'))
+                @if(\Session::get('addPermision')['message'] == 'failed')
                     @php
-                        $data = \Session::get('AddJurusanStatus')['data'];
+                        $data = \Session::get('addPermision')['data'];
                     @endphp
                     <script>
                         var data    = '<?php echo json_encode($data);  ?>';
@@ -204,20 +204,25 @@
                         
                         var pesanError = '';
                         
-                        if(data['id'] !== null )
+                        if(data['action'] != undefined )
                         {
-                            pesanError += data['id'];
+                            pesanError += 'Permision ' + data['action'];
                         }
                         
-                        if(data['jurusan'] !== null && pesanError !== ''){
+                        if(data['url'] != undefined && pesanError !== ''){
                             pesanError += "\r\n";
                             pesanError += data['jurusan'];
+                        }
+
+                        if(data['method'] != undefined && pesanError !== ''){
+                            pesanError += "\r\n";
+                            pesanError += data['method'];
                         }
                         alert(pesanError);
                     </script>
                 @else
                     @php
-                        $data = \Session::get('AddJurusanStatus')['ins_message'];
+                        $data = \Session::get('addPermision')['ins_message'];
                     @endphp
                     <script>
                         var data    = '<?php echo json_encode($data);  ?>';
@@ -225,10 +230,10 @@
                         alert(data);
                     </script>
                 @endif
-            @elseif(\Session::has('UpdJurusanStatus'))
-                @if(\Session::get('UpdJurusanStatus')['message'] == 'failed')
+            @elseif(\Session::has('updatePermision'))
+                @if(\Session::get('updatePermision')['message'] == 'failed')
                     @php
-                        $data = \Session::get('UpdJurusanStatus')['data'];
+                        $data = \Session::get('updatePermision')['data'];
                     @endphp
                     <script>
                         var data    = '<?php echo json_encode($data);  ?>';
@@ -236,20 +241,25 @@
                         
                         var pesanError = '';
                         
-                        if(data['id'] !== null )
+                        if(data['action'] != undefined )
                         {
-                            pesanError += data['id'];
+                            pesanError += 'Permision ' + data['action'];
                         }
                         
-                        if(data['jurusan'] !== null && pesanError !== ''){
+                        if(data['url'] != undefined && pesanError !== ''){
                             pesanError += "\r\n";
                             pesanError += data['jurusan'];
+                        }
+
+                        if(data['method'] != undefined && pesanError !== ''){
+                            pesanError += "\r\n";
+                            pesanError += data['method'];
                         }
                         alert(pesanError);
                     </script>
                 @else
                     @php
-                        $data = \Session::get('UpdJurusanStatus')['upd_message'];
+                        $data = \Session::get('updatePermision')['upd_message'];
                     @endphp
                     <script>
                         var data    = '<?php echo json_encode($data);  ?>';
@@ -266,29 +276,33 @@
                         <div class="col-md-8 mx-auto">
                             <div class="card" style="border:4px solid black;">
                                 <div class="card-header" style="border-bottom:3px solid black;">
-                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Jurusan</h3>
+                                    <h3 style="color:#9C9EA1; font-size: 16pt; font-weight: bold;" class="card-title">Permision</h3>
                                     <input class="card-tools btn btn-danger float-sm-right ml-3" type="button" value="Download">
-                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-jurusan">
+                                    <input class="card-tools btn btn-success float-sm-right" type="button" value="Tambah" data-toggle="modal" data-target="#modal-tambah-permision">
                                     <!-- Modal Tambah Jurusan -->
-                                    <div class="modal fade" id="modal-tambah-jurusan">
+                                    <div class="modal fade" id="modal-tambah-permision">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Tambah Jurusan</h4>
+                                                    <h4 class="modal-title">Tambah Permision</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="{{ url('admin/jurusan') }}" method="POST">
+                                                <form action="{{ url('admin/permision') }}" method="POST">
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="">Kode Jurusan</label>
-                                                            <input type="text" name="id" id="" class="form-control" placeholder="001">
+                                                            <label for="">Permision</label>
+                                                            <input type="text" name="action" class="form-control" placeholder="Tambah Permision">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="">Nama Jurusan</label>
-                                                            <input type="text" name="jurusan" id="" class="form-control" placeholder="Manajemen Informatika">
+                                                            <label for="">URL Permision</label>
+                                                            <input type="text" name="url" class="form-control" placeholder="http://localhost/Pendaftaran%20Online/web/api-glc/admin/permision">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Method</label>
+                                                            <input type="text" name="method" class="form-control" placeholder="POST">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer justify-content-between">
@@ -307,8 +321,9 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode Jurusan</th>
-                                                <th>Jurusan</th>
+                                                <th>Permision</th>
+                                                <th>Url</th>
+                                                <th>Method</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -316,14 +331,59 @@
                                             <?php
                                             $jumlah = 0;
                                             ?>
-                                            @if($permision['data'] === false)
-                                            <tr>
-                                                <td colspan="4">Belum Ada Jurusan Yang Ditambahkan</td>
-                                            </tr>
+                                            @if($permision['success'] === false)
+                                                <tr>
+                                                    <td colspan="4">Belum Ada Permision Yang Diinputkan</td>
+                                                </tr>
                                             @else
-                                            @foreach($permision['data'] as $value)
-
-                                            @endforeach
+                                                @foreach($permision['data'] as $dataPermision)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $dataPermision['action'] }}</td>
+                                                        <td>{{ $dataPermision['url'] }}</td>
+                                                        <td>{{ $dataPermision['method'] }}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-permision-{{$loop->iteration}}">Edit</button>
+                                                            <a onclick="HapusPermision(<?php echo $dataPermision['id']; ?>)" style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="modal-edit-permision-{{$loop->iteration}}">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Edit Permision</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="{{ url('admin/permision/'.$dataPermision['id']) }}" method="POST">
+                                                                    <input name="_method" type="hidden" value="PUT">
+                                                                    @csrf
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <label class="float-sm-left" for="">Permision</label>
+                                                                            <input type="text" name="action" class="form-control" value="{{ $dataPermision['action'] }}" placeholder="Tambah Permision">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="float-sm-left" for="">URL Permision</label>
+                                                                            <input type="text" name="url" class="form-control" value="{{ $dataPermision['url'] }}" placeholder="http://localhost/Pendaftaran%20Online/web/api-glc/admin/permision">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="float-sm-left" for="">Method</label>
+                                                                            <input type="text" name="method" class="form-control" value="{{ $dataPermision['method'] }}" placeholder="POST">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <button type="Submit" class="btn btn-primary">Ubah Data Permision</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <!-- /.modal-content -->
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                @endforeach
                                             @endif
                                         </tbody>
                                     </table>
@@ -390,41 +450,37 @@
     <script src="{{ asset('public/js/demo.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     
-    <script>
-        var jumlah = '<?php echo $jumlah; ?>';
-        for (let index = 1; index <= jumlah; index++) {
-            $('#delete' + index + '').on('click', function(e) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                e.preventDefault();
-
-                var kode = $('#kode' + index + '').val();
-
-                $.ajax({
-                    type: 'delete',
-                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/jurusan/'+kode,
-                    data: {
-                    },
-                    success: function(data) {
-                        if(data['message'] == 'success')
-                        {
-                            alert(data['del_message']);
-                            location.reload();
-                        }
-                        else{
-                            alert(data['data']);
-                            location.reload();
-                        }
-                    },
-                    error: function(response) {
-                        alert('Gagal');
-                    }
-                });
+    <script>    
+        // ~~ HAPUS PERMISION
+        function HapusPermision(id)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
             });
-        }
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/permision/'+id,
+                data: {
+                },
+                success: function(data) {
+                    if(data['message'] == 'success')
+                    {
+                        alert(data['del_message']);
+                        location.reload();
+                    }
+                    else{
+                        alert(data['data']);
+                        location.reload();
+                    }
+                },
+                error: function(response) {
+                    alert('Gagal');
+                }
+            });
+        }                                                   
+        // ~~
     </script>
 </body>
 

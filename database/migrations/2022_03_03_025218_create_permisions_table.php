@@ -17,6 +17,7 @@ class CreatePermisionsTable extends Migration
             $table->increments('id');
             $table->string('action');
             $table->string('url');
+            $table->string('method');
             $table->timestamps();
         });
     }

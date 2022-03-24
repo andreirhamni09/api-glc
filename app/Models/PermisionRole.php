@@ -20,7 +20,8 @@ class PermisionRole extends Model
         $permisionRoles = DB::table('permision_roles')
                         ->join('roles', 'permision_roles.id_roles', '=', 'roles.id')
                         ->join('permisions', 'permision_roles.id_permisions', '=', 'permisions.id')
-                        ->select('permision_roles.*', 'roles.nama_roles as roles', 'permisions.action as action', 'permisions.url as url')
+                        ->select('permision_roles.*', 'roles.nama_roles as roles', 'permisions.action as action', 'permisions.url as url', 'permisions.method as method')
+                        ->orderBy('id_roles', 'ASC')
                         ->get();
         return $permisionRoles;
     }

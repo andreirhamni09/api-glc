@@ -40,7 +40,11 @@ class AdminPermisionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $addPermision   = PermisionsController::store($request);
+        $addPermision   = json_decode(json_encode($addPermision), true);
+
+        $dataPermision  = $addPermision['original']; 
+        return redirect()->back()->with('addPermision', $dataPermision);
     }
 
     /**
@@ -74,7 +78,11 @@ class AdminPermisionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $updatePermision    = PermisionsController::update($request, $id);
+        $updatePermision    = json_decode(json_encode($updatePermision), true);
+
+        $dataPermision      = $updatePermision['original'];
+        return redirect()->back()->with('updatePermision', $dataPermision);
     }
 
     /**
@@ -85,6 +93,10 @@ class AdminPermisionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deletePermision    = PermisionsController::destroy($id);
+        $deletePermision    = json_decode(json_encode($deletePermision), true);
+
+        $dataPermision      = $deletePermision['original'];
+        return $dataPermision;
     }
 }

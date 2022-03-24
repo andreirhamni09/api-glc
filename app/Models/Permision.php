@@ -13,7 +13,8 @@ class Permision extends Model
     public $primaryKey = 'id';
     protected $fillable = [
         'action',
-        'url'
+        'url',
+        'method'
     ];
 
     static function getAll(){

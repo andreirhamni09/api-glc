@@ -16,7 +16,7 @@ class PermisionRoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public static function index()
     {
         $permisionRoles = PermisionRole::getAll();
         if(count($permisionRoles) == 0)
@@ -52,7 +52,7 @@ class PermisionRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         if(
             $request->input('id_roles') == null OR $request->input('id_permisions') == null OR
@@ -151,7 +151,7 @@ class PermisionRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function update(Request $request, $id)
     {
         $cekData = PermisionRole::findPermisionRoles($id);
         
@@ -210,7 +210,7 @@ class PermisionRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $findPermisionRole = PermisionRole::findPermisionRoles($id);
         if(count($findPermisionRole) == 0)

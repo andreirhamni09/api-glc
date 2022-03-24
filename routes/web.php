@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminJurusanController;
 use App\Http\Controllers\Admin\AdminMatakuliahController;
 use App\Http\Controllers\Admin\AdminPermisionController;
+use App\Http\Controllers\Admin\AdminPermisionRoleController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\API\JurusanController;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Route;
     Route::resource('mata-kuliahs', AdminMatakuliahController::class);
     Route::resource('permision', AdminPermisionController::class);
     Route::resource('role', AdminRoleController::class);
+    Route::resource('permision-role', AdminPermisionRoleController::class);
  });
 # ~~
 

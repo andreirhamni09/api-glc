@@ -50,11 +50,12 @@ class PermisionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $rules      = [
             'action'            => 'required|unique:permisions,action|min:3|max:45',
-            'url'               => 'required|unique:permisions,action|min:3|max:100',
+            'url'               => 'required|min:3|max:100',
+            'method'            => 'required|min:3|max:10'
         ];
         $messages   = [
             'action.required'   => 'Action Wajib Diisi',
@@ -62,9 +63,11 @@ class PermisionsController extends Controller
             'action.min'        => 'Action Diisi Minimal 3 Karakter',
             'action.max'        => 'Action Diisi Maksimal 45 Karakter',  
             'url.required'      => 'Url Wajib Diisi',
-            'url.unique'        => 'Url Telah Digunakan',
             'url.min'           => 'Url Diisi Minimal 3 Karakter',
             'url.max'           => 'Url Diisi Maksimal 100 Karakter',  
+            'method.required'   => 'Action Wajib Diisi',
+            'method.min'        => 'Action Diisi Minimal 3 Karakter',
+            'method.max'        => 'Action Diisi Maksimal 10 Karakter'
         ];
         $validator  = Validator::make($request->all(), $rules, $messages);
 
@@ -83,7 +86,7 @@ class PermisionsController extends Controller
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',
-                'ins_message'   => 'Data Permision',
+                'ins_message'   => 'berhasil Menambahkan Data Permision',
                 'data'          => $request->all()
             ], 200);
         } catch (\Throwable $e) {
@@ -125,7 +128,7 @@ class PermisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function update(Request $request, $id)
     {
         $permisions = Permision::findPermision($id);
 
@@ -141,7 +144,8 @@ class PermisionsController extends Controller
         
         $rules      = [
             'action'            => 'required|unique:permisions,action|min:3|max:45',
-            'url'               => 'required|unique:permisions,action|min:3|max:100',
+            'url'               => 'required|min:3|max:100',
+            'method'            => 'required|min:3|max:10'
         ];
         $messages   = [
             'action.required'   => 'Action Wajib Diisi',
@@ -149,9 +153,11 @@ class PermisionsController extends Controller
             'action.min'        => 'Action Diisi Minimal 3 Karakter',
             'action.max'        => 'Action Diisi Maksimal 45 Karakter',  
             'url.required'      => 'Url Wajib Diisi',
-            'url.unique'        => 'Url Telah Digunakan',
             'url.min'           => 'Url Diisi Minimal 3 Karakter',
             'url.max'           => 'Url Diisi Maksimal 100 Karakter',  
+            'method.required'   => 'Action Wajib Diisi',
+            'method.min'        => 'Action Diisi Minimal 3 Karakter',
+            'method.max'        => 'Action Diisi Maksimal 10 Karakter'
         ];
         $validator  = Validator::make($request->all(), $rules, $messages);
 
@@ -190,7 +196,7 @@ class PermisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $permisions = Permision::findPermision($id);
 
