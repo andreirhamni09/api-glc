@@ -330,53 +330,38 @@
                                             <?php
                                             $jumlah = 0;
                                             ?>
-                                            @if($permisionsroles['success'] === false)
+                                            @if(count($permisionsroles) <= 0 )
                                                 <tr>
                                                     <td colspan="4">Belum Ada Permision Yang Diinputkan</td>
                                                 </tr>
                                             @else
-                                                @php
-                                                    $no = 1;
-                                                    $roles      = '';
-                                                    $permisions = '';
-                                                @endphp
-
-                                                @for($i = 0; $i < count($permisionsroles['data']); $i++)
-                                                <tr>
+                                                @foreach($permisionsroles['roleByRole'] as $keyRole => $valueRole)
                                                     @php
-                                                        $nextIndeks = $i + 1;
+                                                        $id         = '';
+                                                        $permision  = '';
+                                                        foreach ($permisionsroles['idPermisionRoleByRole'] as $keyId => $valueId) {
+                                                            if($keyRole == $keyId)
+                                                            {
+                                                                $id = implode(',', $valueId);
+                                                            }
+                                                        }
+                                                        foreach ($permisionsroles['permisionByRole'] as $keyAction => $valueAction) {
+                                                            if($keyRole == $keyAction)
+                                                            {
+                                                                $permision = implode(', ', $valueAction);
+                                                            }
+                                                        }
                                                     @endphp
-                                                    @if(
-                                                        isset($permisionsroles['data'][$nextIndeks]['roles']) &&
-                                                        $permisionsroles['data'][$i]['roles'] == $permisionsroles['data'][$nextIndeks]['roles']
-                                                    )
-                                                        @php
-                                                            $roles       = $permisionsroles['data'][$i]['roles'];
-                                                            $permisions .= $permisionsroles['data'][$i]['action'].',';
-                                                        @endphp
-                                                        <td>{{ $no }}</td>
-                                                        <td>{{ $roles }}</td>
-                                                        <td>{{ $permisions }}</td>
-                                                    @elseif(
-                                                        isset($permisionsroles['data'][$nextIndeks]['roles']) &&
-                                                        $permisionsroles['data'][$i]['roles'] !== $permisionsroles['data'][$nextIndeks]['roles']
-                                                    )
-                                                        @php
-                                                            $roles       = $permisionsroles['data'][$i]['roles'];
-                                                            $permisions .= $permisionsroles['data'][$i]['action'];
-                                                        @endphp
-                                                        <td>{{ $no }}</td>
-                                                        <td>{{ $roles }}</td>
-                                                        <td>{{ $permisions }}</td>
-                                                        @php
-                                                            $permisions  = '';
-                                                        @endphp
-                                                    @endif
-                                                </tr>                                                
-                                                @php
-                                                    $no += 1;
-                                                @endphp
-                                                @endfor
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $valueRole }}</td>
+                                                        <td>{{ $permision }}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-mata-kuliah-{{$loop->iteration}}">Edit</button>
+                                                            <a style="color:white;" onclick="HapusPermisionRole(<?php echo $keyRole; ?>)" class="btn btn-danger">Hapus</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             @endif
                                         </tbody>
                                     </table>
@@ -445,7 +430,7 @@
     
     <script>    
         // ~~ HAPUS PERMISION
-        function HapusPermision(id)
+        function HapusPermisionRole(id)
         {
             $.ajaxSetup({
                 headers: {
@@ -454,7 +439,7 @@
             });
             $.ajax({
                 type: 'DELETE',
-                url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/permision/'+id,
+                url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/permision-role/'+id,
                 data: {
                 },
                 success: function(data) {

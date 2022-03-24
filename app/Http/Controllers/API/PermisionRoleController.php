@@ -212,7 +212,7 @@ class PermisionRoleController extends Controller
      */
     public static function destroy($id)
     {
-        $findPermisionRole = PermisionRole::findPermisionRoles($id);
+        $findPermisionRole = PermisionRole::findPermisionRoleByIdRoles($id);
         if(count($findPermisionRole) == 0)
         {
             return response()->json([
@@ -224,8 +224,7 @@ class PermisionRoleController extends Controller
         }
         
         try {
-            $delPermisionRoles = PermisionRole::find($id);
-            $delPermisionRoles->delete();
+            $delPermisionRoles = PermisionRole::deletePermisionRole($id);
             return response()->json([
                 'success'       => true,
                 'message'       => 'success',

@@ -15,62 +15,43 @@ class AdminPermisionRoleController extends Controller
      */
     public function index()
     {
-        $getPermisionRole   = PermisionRoleController::index();
-        $getPermisionRole   = json_decode(json_encode($getPermisionRole), true);
-
+        $getPermisionRole   = json_decode(json_encode(PermisionRoleController::index()), true);
+        
+        $dataPermisionRoles = [];
         $arrIdPermisionRole = [];
         $arrRole            = [];
         $arrPermision       = [];
-        foreach ($getPermisionRole['original']['data'] as $dataPermisionRole) {
-            $arrRole[$dataPermisionRole['id_roles']]        = $dataPermisionRole['roles'];
-        }
 
-        foreach ($arrRole as $key => $value) {
-            $arrCekPermision            = [];
-            $arrCekIdPermisionRole      = [];
+        if($getPermisionRole['original']['success'] == true)
+        {
             foreach ($getPermisionRole['original']['data'] as $dataPermisionRole) {
-                if($value == $dataPermisionRole['roles'])
-                {
-                    array_push($arrCekPermision, $dataPermisionRole['action']);
-                    array_push($arrCekIdPermisionRole, $dataPermisionRole['id']);
-                }
+                $arrRole[$dataPermisionRole['id_roles']]        = $dataPermisionRole['roles'];
             }
-            $arrIdPermisionRole[$key] = $arrCekIdPermisionRole;
-            $arrCekIdPermisionRole = [];
+    
+            foreach ($arrRole as $key => $value) {
+                $arrCekPermision            = [];
+                $arrCekIdPermisionRole      = [];
+                foreach ($getPermisionRole['original']['data'] as $dataPermisionRole) {
+                    if($value == $dataPermisionRole['roles'])
+                    {
+                        array_push($arrCekPermision, $dataPermisionRole['action']);
+                        array_push($arrCekIdPermisionRole, $dataPermisionRole['id']);
+                    }
+                }
+                $arrIdPermisionRole[$key] = $arrCekIdPermisionRole;
+                $arrCekIdPermisionRole = [];
+    
+                $arrPermision[$key] = $arrCekPermision;
+                $arrCekPermision = [];
+            }
 
-            $arrPermision[$key] = $arrCekPermision;
-            $arrCekPermision = [];
+            $dataPermisionRoles = [
+                'idPermisionRoleByRole' => $arrIdPermisionRole,
+                'roleByRole'            => $arrRole,
+                'permisionByRole'       => $arrPermision 
+            ];
         }
-        print_r($arrIdPermisionRole); echo '<br>';
-        print_r($arrRole); echo '<br>';
-        print_r($arrPermision);echo '<br>';echo '<br>';
-
-        $dataPermisionRole = [
-            'idPermisionRoleByRole' => $arrIdPermisionRole,
-            'roleByRole'            => $arrRole,
-            'permisionByRole'       => $arrPermision 
-        ];
-
-        foreach ($dataPermisionRole['roleByRole'] as $keyRole => $valueRole) {
-            $id         = '';
-            $permision  = '';
-            foreach ($dataPermisionRole['idPermisionRoleByRole'] as $keyId => $valueId) {
-                if($keyRole == $keyId)
-                {
-                    $id = implode(',', $valueId);
-                }
-            }
-            echo $id.'<br>';
-            
-            foreach ($dataPermisionRole['permisionByRole'] as $keyAction => $valueAction) {
-                if($keyRole == $keyAction)
-                {
-                    $permision = implode(',', $valueAction);
-                }
-            }
-            echo $permision.'<br>';
-        }
-        //return view('karyawan.admin.permisions-roles', ['permisionsroles' => $getPermisionRole['original']]);
+        return view('karyawan.admin.permisions-roles', ['permisionsroles' => $dataPermisionRoles]);
     }
 
     /**
@@ -136,6 +117,8 @@ class AdminPermisionRoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delPermisionRole = json_decode(json_encode(PermisionRoleController::destroy($id)), true);
+        
+        return $delPermisionRole['original'];
     }
 }
