@@ -99,4 +99,10 @@ class AdminJurusanController extends Controller
         $data           = $data['original'];
         return $data;
     }
+
+
+    public function getJurusan($id)
+    {
+        return $id;
+    }
 }

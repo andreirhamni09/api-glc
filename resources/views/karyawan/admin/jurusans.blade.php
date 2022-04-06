@@ -322,15 +322,16 @@
                                             </tr>
                                             @else
                                             @foreach($jurusan['data'] as $value)
-                                            <?php $jumlah += 1; ?>
+                                            <?php 
+                                                $jumlah += 1; 
+                                            ?>
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $value['id'] }}</td>
                                                 <td>{{ $value['jurusan'] }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-jurusan-{{$loop->iteration}}">Edit</button>
-                                                    <input type="hidden" id="kode{{ $loop->iteration }}" value="{{$value['id']}}">
-                                                    <a style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
+                                                    <button onclick="hapusJurusan('<?php echo $value['id'];?>')" style="color:white;" class="btn btn-danger">Hapus</button>
                                                 </td>
                                             </tr>
 
@@ -435,38 +436,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     
     <script>
-        var jumlah = '<?php echo $jumlah; ?>';
-        for (let index = 1; index <= jumlah; index++) {
-            $('#delete' + index + '').on('click', function(e) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        function hapusJurusan(id)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "jurusan/"+id,
+                method: "delete",
+                data: {
+                },
+                success: function(data) {
+                    if(data['message'] == 'success')
+                    {
+                        alert(data['del_message']);
+                        location.reload();
                     }
-                });
-                e.preventDefault();
-
-                var kode = $('#kode' + index + '').val();
-
-                $.ajax({
-                    type: 'delete',
-                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/jurusan/'+kode,
-                    data: {
-                    },
-                    success: function(data) {
-                        if(data['message'] == 'success')
-                        {
-                            alert(data['del_message']);
-                            location.reload();
-                        }
-                        else{
-                            alert(data['data']);
-                            location.reload();
-                        }
-                    },
-                    error: function(response) {
-                        alert('Gagal');
+                    else{
+                        alert(data['data']);
+                        location.reload();
                     }
-                });
+                },
+                error: function(data) {
+                    alert('Gagal');
+                }
             });
         }
     </script>

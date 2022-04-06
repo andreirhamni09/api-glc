@@ -1,4 +1,8 @@
 <?php
+# ~~ Peserta didik
+use App\Http\Controllers\Siswa\LoginPesertaDidikController;
+# ~~ Peserta didik
+
 
 use App\Http\Controllers\Admin\AdminJurusanController;
 use App\Http\Controllers\Admin\AdminMatakuliahController;
@@ -22,10 +26,9 @@ use Illuminate\Support\Facades\Route;
 
 # ~~ Peserta Didik
  Route::prefix('/')->group(function(){
-    Route::get('', function(){
-        return view('test');
-    });
+    Route::get('', [LoginPesertaDidikController::class, 'Login']);
  });
+# ~~
 
  Route::prefix('/admin')->group(function(){
     Route::resource('jurusan', AdminJurusanController::class);   
@@ -33,14 +36,11 @@ use Illuminate\Support\Facades\Route;
     Route::resource('permision', AdminPermisionController::class);
     Route::resource('role', AdminRoleController::class);
     Route::resource('permision-role', AdminPermisionRoleController::class);
+
+
  });
 # ~~
 
 
-Route::get('/test', function(){
-    return view('test');
-});
 
-Route::post('/profile/{id}', function(Request $request, $id){
-    return $id;
-});
+Route::get('getJurusan', [AdminJurusanController::class, 'getJurusan']);

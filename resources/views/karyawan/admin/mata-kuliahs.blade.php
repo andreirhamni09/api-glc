@@ -296,14 +296,14 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="">Matakuliah</label>
-                                                            <input type="text" name="matakuliah" class="form-control" placeholder="Bahasa Inggris">
+                                                            <input type="text" name="matakuliah" class="form-control" placeholder="Bahasa Inggris" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="">Jurusan</label>
                                                             @if($jurusan['data'] === false)
                                                                 <a href="{{ url('admin/jurusan') }}" class="form-control btn btn-success">Tambah Jurusan</a>
                                                             @else
-                                                            <select name="id_jurusans" class="form-control">
+                                                            <select name="id_jurusans" class="form-control" required>
                                                                 @foreach($jurusan['data'] as $value)
                                                                 <option value="{{ $value['id'] }}">{{ $value['jurusan'] }}</option>
                                                                 @endforeach
@@ -312,7 +312,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="">Semester</label>
-                                                            <input type="number" name="semester" class="form-control" placeholder="1">
+                                                            <input type="number" name="semester" class="form-control" placeholder="1" required>
                                                         </div>
                                                         <div id="jadwal">
                                                             <input type="hidden" id="jumlah_jadwal" name="jumlah_jadwal" value="1">
@@ -323,7 +323,7 @@
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label for="">Hari</label>
-                                                                        <select name="hari[]" class="form-control">
+                                                                        <select name="hari[]" class="form-control" required>
                                                                             <option value="Senin">Senin</option>
                                                                             <option value="Selasa">Selasa</option>
                                                                             <option value="Rabu">Rabu</option>
@@ -336,13 +336,13 @@
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label for="">Jam Mulai</label>
-                                                                        <input type="time" name="jam_mulai[]" id="" class="form-control" value="00:00">
+                                                                        <input type="time" name="jam_mulai[]" id="" class="form-control" value="00:00" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label for="">Jam Selesai</label>
-                                                                        <input type="time" name="jam_selesai[]" id="" class="form-control" value="00:00">
+                                                                        <input type="time" name="jam_selesai[]" id="" class="form-control" value="00:00" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
@@ -415,10 +415,8 @@
                                                         @endfor
                                                     </td>  
                                                     <td style="vertical-align: middle;">{{ $value['semester'] }}</td>
-                                                    <td style="vertical-align: middle;">                                                        
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edit-mata-kuliah-{{$loop->iteration}}">Edit</button>
-                                                        <input type="hidden" id="kode{{ $loop->iteration }}" value="{{$value['id']}}">
-                                                        <a style="color:white;" id="delete{{ $loop->iteration }}" class="btn btn-danger">Hapus</a>
+                                                    <td style="vertical-align: middle;">                                                    
+                                                        <button onclick="HapusMataKuliah('<?php echo $value['id'];?>')" style="color:white;" class="btn btn-danger">Hapus</button>
                                                     </td> 
                                                 </tr>                                                
 
@@ -444,7 +442,7 @@
                                                                         @if($jurusan['data'] === false)
                                                                             <a href="{{ url('admin/jurusan') }}" class="form-control btn btn-success">Tambah Jurusan</a>
                                                                         @else
-                                                                        <select id="id_jurusans_{{ $value['id'] }}" name="id_jurusans_{{ $value['id'] }}" class="form-control">
+                                                                        <select id="id_jurusans_{{ $value['id'] }}" name="id_jurusans_{{ $value['id'] }}" class="form-control" required>
                                                                             @foreach($jurusan['data'] as $valJurusan)
                                                                                 @if($valJurusan['id'] == $value['id_jurusans'])
                                                                                     <option value="{{ $valJurusan['id'] }}" selected>{{ $valJurusan['jurusan'] }}</option>
@@ -595,40 +593,46 @@
     
     <script>
         // DELETE
+        function HapusMataKuliah(id)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                method: 'delete',
+                url: 'mata-kuliahs/'+id,
+                data: {
+                },
+                success: function(data) {
+                    if(data['message'] == 'success')
+                    {
+                        alert(data['del_message']);
+                        location.reload();
+                    }
+                    else{
+                        alert(data['data']);
+                        location.reload();
+                    }
+
+                    //alert(response);
+                },
+                error: function(response) {
+                    alert('Gagal');
+                }
+            });
+        }                                                
+
         var jumlah = '<?php echo $jumlah; ?>';
         for (let index = 1; index <= jumlah; index++) {
             $('#delete' + index + '').on('click', function(e) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                
                 e.preventDefault();
 
                 var kode = $('#kode' + index + '').val();
 
-                $.ajax({
-                    type: 'delete',
-                    url: 'http://localhost/Pendaftaran%20Online/web/api-glc/admin/mata-kuliahs/'+kode,
-                    data: {
-                    },
-                    success: function(data) {
-                        if(data['message'] == 'success')
-                        {
-                            alert(data['del_message']);
-                            location.reload();
-                        }
-                        else{
-                            alert(data['data']);
-                            location.reload();
-                        }
-
-                        //alert(response);
-                    },
-                    error: function(response) {
-                        alert('Gagal');
-                    }
-                });
+                
             });
         }
         // ~~
